@@ -1,0 +1,797 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BMO(Office Building)",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 675744.172,
+        "northing": 2655893.618,
+        "elevation_m": 393.477,
+        "date": "2026-08-05",
+        "remark": "Office Building",
+        "flight_no": "",
+        "source_row": 3
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7277710751,
+          24.0053187493
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M-2(Dam Top)",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 680837.844,
+        "northing": 2651749.77,
+        "elevation_m": 402.763,
+        "date": "2026-08-05",
+        "remark": "Dam Top",
+        "flight_no": "",
+        "source_row": 4
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7773156064,
+          23.9673358542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "Known Point (Base)",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 681068.6,
+        "northing": 2652351.206,
+        "elevation_m": 400.02,
+        "date": "2026-08-05",
+        "remark": "Known Point",
+        "flight_no": "",
+        "source_row": 5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7796572629,
+          23.9727393102
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M-3",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 678851.845,
+        "northing": 2652252.039,
+        "elevation_m": 394.224,
+        "date": "2026-08-07",
+        "remark": "M-3",
+        "flight_no": "",
+        "source_row": 7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7578654834,
+          23.9720951265
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M-5",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 677368.649,
+        "northing": 2653300.375,
+        "elevation_m": 382.708,
+        "date": "2026-08-07",
+        "remark": "M-5",
+        "flight_no": "",
+        "source_row": 8
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7434204103,
+          23.9817259004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M-6",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 677367.368,
+        "northing": 2655338.705,
+        "elevation_m": 357.731,
+        "date": "2026-08-07",
+        "remark": "M-6",
+        "flight_no": "",
+        "source_row": 9
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.743655723,
+          24.0001282857
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BMO",
+        "type": "BM/Base",
+        "base_shift": "M2 To BMO",
+        "easting": 675744.172,
+        "northing": 2655893.618,
+        "elevation_m": 393.477,
+        "date": "2026-08-08",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 10
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7277710751,
+          24.0053187493
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M7",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 676398.618,
+        "northing": 2656431.796,
+        "elevation_m": 350.774,
+        "date": "2026-08-08",
+        "remark": "M7",
+        "flight_no": "",
+        "source_row": 11
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7342679059,
+          24.0101048455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M8",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 675011.367,
+        "northing": 2657272.594,
+        "elevation_m": 355.381,
+        "date": "2026-08-08",
+        "remark": "M8",
+        "flight_no": "",
+        "source_row": 12
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7207349533,
+          24.017849415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M9",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 674475.13,
+        "northing": 2658599.124,
+        "elevation_m": 384.162,
+        "date": "2026-08-08",
+        "remark": "M9",
+        "flight_no": "",
+        "source_row": 13
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7156234347,
+          24.0298846895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M10",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 674123.451,
+        "northing": 2659845.941,
+        "elevation_m": 365.217,
+        "date": "14/08/2026",
+        "remark": "",
+        "flight_no": "",
+        "source_row": 15
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7123157902,
+          24.0411798827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M11",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 673331.173,
+        "northing": 2662597.896,
+        "elevation_m": 377.998,
+        "date": "14/08/2026",
+        "remark": "",
+        "flight_no": "",
+        "source_row": 16
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7048554908,
+          24.0661120224
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M12",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 672061.934,
+        "northing": 2664576.772,
+        "elevation_m": 382.662,
+        "date": "14/08/2026",
+        "remark": "",
+        "flight_no": "",
+        "source_row": 17
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.6926102926,
+          24.0841163665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M12A",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 672057.186,
+        "northing": 2665885.459,
+        "elevation_m": 370.163,
+        "date": "15/08/2026",
+        "remark": "",
+        "flight_no": "",
+        "source_row": 19
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.6927188376,
+          24.0959320009
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M14",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 670930.144,
+        "northing": 2669129.739,
+        "elevation_m": 386.62,
+        "date": "15/08/2026",
+        "remark": "",
+        "flight_no": "",
+        "source_row": 20
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.6820173553,
+          24.1253445308
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M15",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 671320.332,
+        "northing": 2670942.584,
+        "elevation_m": 375.384,
+        "date": "15/08/2026",
+        "remark": "",
+        "flight_no": "",
+        "source_row": 21
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.686070283,
+          24.1416689326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M2Base",
+        "type": "BM/Base",
+        "base_shift": "BMO To M2",
+        "easting": 680837.844,
+        "northing": 2651749.77,
+        "elevation_m": 402.763,
+        "date": "17/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 22
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7773156064,
+          23.9673358542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM1",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 680431.579,
+        "northing": 2651807.876,
+        "elevation_m": 368.545,
+        "date": "17/08/2026",
+        "remark": "TBM",
+        "flight_no": "flight-M2&M3",
+        "source_row": 23
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.773331414,
+          23.9679066138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M6Base",
+        "type": "BM/Base",
+        "base_shift": "M2 To M6",
+        "easting": 677367.368,
+        "northing": 2655338.705,
+        "elevation_m": 357.731,
+        "date": "17/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 24
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.743655723,
+          24.0001282857
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM2",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 678692.817,
+        "northing": 2655068.716,
+        "elevation_m": 399.252,
+        "date": "17/08/2026",
+        "remark": "TBM",
+        "flight_no": "flight-M8&M8",
+        "source_row": 25
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7566480366,
+          23.9975420995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M6_To_TBM",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 679229.025,
+        "northing": 2653235.339,
+        "elevation_m": 376.101,
+        "date": "18/08/2026",
+        "remark": "TBM",
+        "flight_no": "Flight-M7",
+        "source_row": 27
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7616920217,
+          23.9809298805
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M9Base",
+        "type": "BM/Base",
+        "base_shift": "M6 To M9",
+        "easting": 674475.13,
+        "northing": 2658599.124,
+        "elevation_m": 384.162,
+        "date": "18/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 28
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7156234347,
+          24.0298846895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M9_TBM",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 674324.917,
+        "northing": 2658461.876,
+        "elevation_m": 387.57,
+        "date": "18/08/2026",
+        "remark": "TBM",
+        "flight_no": "Flight-M12&M13",
+        "source_row": 29
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.714130458,
+          24.028662122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M10 Base",
+        "type": "BM/Base",
+        "base_shift": "M9 To M10",
+        "easting": 674123.451,
+        "northing": 2659845.941,
+        "elevation_m": 365.217,
+        "date": "18/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 30
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7123157902,
+          24.0411798827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM1",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 673813.958,
+        "northing": 2659260.979,
+        "elevation_m": 378.013,
+        "date": "18/08/2026",
+        "remark": "TBM1",
+        "flight_no": "Flight-M14",
+        "source_row": 31
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7092034196,
+          24.0359327252
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M10_To_TBM2",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 674088.403,
+        "northing": 2661425.007,
+        "elevation_m": 386.619,
+        "date": "18/08/2026",
+        "remark": "TBM2",
+        "flight_no": "Flight-M15",
+        "source_row": 32
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7121603388,
+          24.0554398286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BaseM10TBM2",
+        "type": "TBM",
+        "base_shift": "BaseM10TBM2",
+        "easting": 674088.403,
+        "northing": 2661425.007,
+        "elevation_m": 386.619,
+        "date": "19/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 33
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7121603388,
+          24.0554398286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 674346.024,
+        "northing": 2661647.834,
+        "elevation_m": 380.516,
+        "date": "19/08/2026",
+        "remark": "TBM",
+        "flight_no": "Flight-M16,M17,M18",
+        "source_row": 34
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7147198917,
+          24.0574231857
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BaseM12",
+        "type": "BM/Base",
+        "base_shift": "",
+        "easting": 672061.934,
+        "northing": 2664576.772,
+        "elevation_m": 382.662,
+        "date": "19/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.6926102926,
+          24.0841163665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M12_To_TBM",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 672058.495,
+        "northing": 2663282.738,
+        "elevation_m": 396.074,
+        "date": "19/08/2026",
+        "remark": "TBM",
+        "flight_no": "Flight-M19",
+        "source_row": 36
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.6924230731,
+          24.0724338952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BMO Base",
+        "type": "BM/Base",
+        "base_shift": "B12 To BMO",
+        "easting": 675744.172,
+        "northing": 2655893.618,
+        "elevation_m": 393.477,
+        "date": "20/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 37
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7277710751,
+          24.0053187493
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 674218.953,
+        "northing": 2655341.068,
+        "elevation_m": 413.339,
+        "date": "20/08/2026",
+        "remark": "TBM",
+        "flight_no": "Flight-M10,M11",
+        "source_row": 38
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7127155836,
+          24.0004984471
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M7Base",
+        "type": "BM/Base",
+        "base_shift": "BMO To M7",
+        "easting": 676398.618,
+        "northing": 2656431.796,
+        "elevation_m": 350.774,
+        "date": "21/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 39
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7342679059,
+          24.0101048455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M7_TBM",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 677059.482,
+        "northing": 2655844.554,
+        "elevation_m": 359.003,
+        "date": "21/08/2026",
+        "remark": "TBM",
+        "flight_no": "",
+        "source_row": 40
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7406915135,
+          24.0047295273
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M8Base",
+        "type": "BM/Base",
+        "base_shift": "M7 To M8",
+        "easting": 675011.367,
+        "northing": 2657272.594,
+        "elevation_m": 355.381,
+        "date": "21/08/2026",
+        "remark": "Base",
+        "flight_no": "",
+        "source_row": 41
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7207349533,
+          24.017849415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "M8_TBM1",
+        "type": "TBM",
+        "base_shift": "",
+        "easting": 676124.858,
+        "northing": 2657033.308,
+        "elevation_m": 357.384,
+        "date": "21/08/2026",
+        "remark": "TBM",
+        "flight_no": "",
+        "source_row": 42
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.7316501167,
+          24.0155657994
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "source_root": "G:\\01 Data\\Drone Data\\MKP\\02 Drone",
+  "images_scanned": 12439,
+  "geotagged_images": 12439,
+  "images_without_gps_or_unreadable": 0,
+  "bounds_wgs84": {
+    "min_lon": 76.70133836111111,
+    "min_lat": 23.952326527777778,
+    "max_lon": 76.77714394444445,
+    "max_lat": 24.077800555555555
+  },
+  "outputs": [
+    "drone_photo_locations.shp",
+    "drone_photo_locations.shx",
+    "drone_photo_locations.dbf",
+    "drone_photo_locations.prj",
+    "drone_photo_locations.csv",
+    "drone_photo_locations.geojson",
+    "drone_photo_webmap.html"
+  ]
+}
