@@ -347,7 +347,7 @@ col2.metric("AOI Features", f"{len(aoi_geojson['features']):,}")
 col3.metric("BM/Base", f"{int(dgps_types.get('BM/Base', 0)):,}")
 col4.metric("TBM", f"{int(dgps_types.get('TBM', 0)):,}")
 
-st.iframe("/app/static/drone_photo_webmap.html?v=6", height=820, scrolling=False)
+st.iframe("/app/static/drone_photo_webmap.html?v=8", height=820)
 
 with st.expander("DGPS BM/TBM table", expanded=False):
     dgps_rows = []
