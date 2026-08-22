@@ -8,7 +8,6 @@ import folium
 import pandas as pd
 import pydeck as pdk
 import streamlit as st
-import streamlit.components.v1 as components
 from folium.plugins import FastMarkerCluster, Fullscreen, MeasureControl
 from streamlit_folium import st_folium
 
@@ -336,27 +335,9 @@ dgps_geojson = load_geojson(DGPS_GEOJSON)
 
 dgps_types = pd.Series([f["properties"]["type"] for f in dgps_geojson["features"]]).value_counts()
 
-with st.sidebar:
-    st.header("Layers")
-    basemap = st.radio(
-        "Basemap",
-        ["Esri World Imagery", "OpenStreetMap"],
-        index=0,
-    )
-    render_mode = st.radio(
-        "Map renderer",
-        ["Standalone Leaflet iframe", "PyDeck native", "Leaflet HTML fallback", "Streamlit Folium component"],
-        index=0,
-        help="Standalone Leaflet iframe serves the already-working HTML map through Streamlit.",
-    )
-    st.caption("Layer visibility is controlled from the map's layer switcher.")
-
-    st.header("Data")
-    show_table = st.checkbox("Show DGPS table", value=False)
-
 st.title("Mohanpura Drone Coverage and Survey Control")
 st.markdown(
-    '<p class="source-note">AOI overlaid above drone photograph points, with DGPS BM/Base and TBM from the Mohanpura processing sheet.</p>',
+    '<p class="source-note">Use the layer control inside the map to switch basemaps and toggle AOI, drone photo locations, BM/Base, and TBM layers.</p>',
     unsafe_allow_html=True,
 )
 
@@ -366,19 +347,9 @@ col2.metric("AOI Features", f"{len(aoi_geojson['features']):,}")
 col3.metric("BM/Base", f"{int(dgps_types.get('BM/Base', 0)):,}")
 col4.metric("TBM", f"{int(dgps_types.get('TBM', 0)):,}")
 
-if render_mode == "Standalone Leaflet iframe":
-    components.iframe("/app/static/drone_photo_webmap.html?v=4", height=800, scrolling=False)
-elif render_mode == "PyDeck native":
-    deck = build_pydeck(drone_df, aoi_geojson, dgps_geojson)
-    st.pydeck_chart(deck, height=760, width="stretch")
-else:
-    map_obj = build_map(drone_df, aoi_geojson, dgps_geojson, basemap)
-if render_mode == "Streamlit Folium component":
-    st_folium(map_obj, height=760, width=1400, returned_objects=[])
-elif render_mode == "Leaflet HTML fallback":
-    components.html(map_obj.get_root().render(), height=790, scrolling=False)
+st.iframe("/app/static/drone_photo_webmap.html?v=6", height=820, scrolling=False)
 
-if show_table:
+with st.expander("DGPS BM/TBM table", expanded=False):
     dgps_rows = []
     for feature in dgps_geojson["features"]:
         row = dict(feature["properties"])
