@@ -22,7 +22,7 @@
     .metric b { display: block; font-size: 16px; color: #0b1f2a; }
     .metric span { display: block; font-size: 11px; color: #53616d; margin-top: 2px; }
     .legend-item { display: flex; align-items: center; gap: 7px; }
-    .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: #c7362f; box-shadow: 0 0 0 1px #7f1d1d; flex: 0 0 auto; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: #dc2626; box-shadow: 0 0 0 1px #7f1d1d; flex: 0 0 auto; }
     .legend-aoi { width: 24px; height: 12px; border: 3px solid #005f73; background: transparent; flex: 0 0 auto; }
     .legend-bm { width: 12px; height: 12px; border-radius: 50%; background: #1d4ed8; border: 2px solid #fff; box-shadow: 0 0 0 1px #1e3a8a; flex: 0 0 auto; }
     .legend-tbm { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 14px solid #f59e0b; filter: drop-shadow(0 0 1px #92400e); flex: 0 0 auto; }
@@ -44,7 +44,6 @@
     <p class="legend-item"><span class="legend-dot"></span>Drone photograph geotags</p>
     <p class="legend-item"><span class="legend-bm"></span>DGPS BM/Base control</p>
     <p class="legend-item"><span class="legend-tbm"></span>DGPS TBM control</p>
-    <p>CRS: WGS84 display; DGPS source transformed from WGS 1984 UTM Zone 43N.</p>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
@@ -70,27 +69,55 @@
       attribution: 'Labels &copy; Esri'
     }).addTo(map);
 
-    const droneRenderer = L.canvas({ pane: 'dronePane', padding: 0.5 });
-    const droneLayer = L.layerGroup();
-    for (const p of dronePoints) {
-      const marker = L.circleMarker([p[0], p[1]], {
-        pane: 'dronePane',
-        renderer: droneRenderer,
-        radius: 2.4,
-        color: '#7f1d1d',
-        weight: 0.7,
-        fillColor: '#dc2626',
-        fillOpacity: 0.52
-      });
-      const alt = p[4] === null ? '' : `<br><b>Altitude:</b> ${p[4]} m`;
-      const dt = p[5] ? `<br><b>Date/time:</b> ${p[5]}` : '';
-      marker.bindPopup(`<b>${p[2]}</b><br><b>Flight folder:</b> ${p[3]}${alt}${dt}<br><b>Lat/Lon:</b> ${p[0]}, ${p[1]}`);
-      marker.addTo(droneLayer);
-    }
+    const DroneCanvasLayer = L.Layer.extend({
+      onAdd: function(map) {
+        this._map = map;
+        this._canvas = L.DomUtil.create('canvas', 'leaflet-layer');
+        this._canvas.style.position = 'absolute';
+        this._canvas.style.pointerEvents = 'none';
+        map.getPane('dronePane').appendChild(this._canvas);
+        map.on('move zoom resize zoomend moveend', this._reset, this);
+        this._reset();
+      },
+      onRemove: function(map) {
+        L.DomUtil.remove(this._canvas);
+        map.off('move zoom resize zoomend moveend', this._reset, this);
+      },
+      _reset: function() {
+        const size = this._map.getSize();
+        const topLeft = this._map.containerPointToLayerPoint([0, 0]);
+        L.DomUtil.setPosition(this._canvas, topLeft);
+        this._canvas.width = size.x;
+        this._canvas.height = size.y;
+        this._draw();
+      },
+      _draw: function() {
+        const ctx = this._canvas.getContext('2d');
+        const size = this._map.getSize();
+        ctx.clearRect(0, 0, size.x, size.y);
+        ctx.fillStyle = 'rgba(220,38,38,0.55)';
+        ctx.strokeStyle = 'rgba(127,29,29,0.75)';
+        ctx.lineWidth = 0.8;
+        const bounds = this._map.getBounds().pad(0.05);
+        const radius = this._map.getZoom() >= 17 ? 3.2 : 2.2;
+        for (let i = 0; i < dronePoints.length; i++) {
+          const p = dronePoints[i];
+          const ll = L.latLng(p[0], p[1]);
+          if (!bounds.contains(ll)) continue;
+          const c = this._map.latLngToContainerPoint(ll);
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        }
+      }
+    });
+    const droneLayer = new DroneCanvasLayer();
     droneLayer.addTo(map);
 
     const aoiLayer = L.geoJSON(mohanpuraAoi, {
       pane: 'aoiPane',
+      interactive: false,
       style: {
         color: '#005f73',
         weight: 3.5,
@@ -140,7 +167,7 @@
       { collapsed: false }
     ).addTo(map);
 
-    map.fitBounds([[23.9524195644, 76.654820631], [24.1909019696, 76.7796572629]], { paddingTopLeft: [24, 140], paddingBottomRight: [24, 24] });
+    map.fitBounds([[23.9524195644, 76.654820631], [24.1909019696, 76.7775340154]], { paddingTopLeft: [24, 140], paddingBottomRight: [24, 24] });
     aoiLayer.bringToFront();
     bmLayer.eachLayer(layer => layer.setZIndexOffset(1000));
     tbmLayer.eachLayer(layer => layer.setZIndexOffset(1100));
