@@ -26,6 +26,10 @@
     .legend-aoi { width: 24px; height: 12px; border: 3px solid #005f73; background: transparent; flex: 0 0 auto; }
     .legend-bm { width: 12px; height: 12px; border-radius: 50%; background: #1d4ed8; border: 2px solid #fff; box-shadow: 0 0 0 1px #1e3a8a; flex: 0 0 auto; }
     .legend-tbm { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 14px solid #f59e0b; filter: drop-shadow(0 0 1px #92400e); flex: 0 0 auto; }
+    .legend-client { width: 10px; height: 10px; background: #16a34a; border: 1px solid #14532d; display: inline-block; flex: 0 0 auto; }
+    .client-tool { margin-top: 10px; padding-top: 9px; border-top: 1px solid #d6dde3; }
+    .client-tool input { width: 100%; font-size: 12px; }
+    .client-status { color: #53616d; font-size: 11.5px; margin-top: 6px; }
     .control-marker { transform: translate(-50%, -50%); }
     .control-marker.bm { width: 14px; height: 14px; border-radius: 50%; background: #1d4ed8; border: 2px solid #fff; box-shadow: 0 0 0 1px #1e3a8a, 0 2px 6px rgba(0,0,0,.35); }
     .control-marker.tbm { width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid #f59e0b; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
@@ -44,6 +48,12 @@
     <p class="legend-item"><span class="legend-dot"></span>Drone photograph geotags</p>
     <p class="legend-item"><span class="legend-bm"></span>DGPS BM/Base control</p>
     <p class="legend-item"><span class="legend-tbm"></span>DGPS TBM control</p>
+    <p class="legend-item"><span class="legend-client"></span>Client-side extracted locations</p>
+    <div class="client-tool">
+      <p><b>Extract photo locations locally</b></p>
+      <input id="photoExifInput" type="file" accept=".jpg,.jpeg,image/jpeg" multiple />
+      <div id="photoExifStatus" class="client-status">JPG photos stay in this browser. Only coordinates are drawn.</div>
+    </div>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
@@ -159,6 +169,181 @@
     bmLayer.addTo(map);
     tbmLayer.addTo(map);
 
+    const clientPhotoPoints = [];
+    const ClientPhotoCanvasLayer = L.Layer.extend({
+      onAdd: function(map) {
+        this._map = map;
+        this._canvas = L.DomUtil.create('canvas', 'leaflet-layer');
+        this._canvas.style.position = 'absolute';
+        this._canvas.style.pointerEvents = 'none';
+        map.getPane('controlPane').appendChild(this._canvas);
+        map.on('resize zoomend moveend overlayadd', this._schedule, this);
+        this._reset();
+      },
+      onRemove: function(map) {
+        L.DomUtil.remove(this._canvas);
+        map.off('resize zoomend moveend overlayadd', this._schedule, this);
+      },
+      _schedule: function() {
+        if (this._frame) cancelAnimationFrame(this._frame);
+        this._frame = requestAnimationFrame(() => this._reset());
+      },
+      _reset: function() {
+        const size = this._map.getSize();
+        const topLeft = this._map.containerPointToLayerPoint([0, 0]);
+        L.DomUtil.setPosition(this._canvas, topLeft);
+        this._canvas.width = size.x;
+        this._canvas.height = size.y;
+        this._draw();
+      },
+      _draw: function() {
+        const ctx = this._canvas.getContext('2d');
+        const size = this._map.getSize();
+        ctx.clearRect(0, 0, size.x, size.y);
+        ctx.fillStyle = 'rgba(22,163,74,0.9)';
+        ctx.strokeStyle = 'rgba(20,83,45,0.95)';
+        ctx.lineWidth = 1.2;
+        const margin = 16;
+        for (let i = 0; i < clientPhotoPoints.length; i++) {
+          const p = clientPhotoPoints[i];
+          const c = this._map.latLngToContainerPoint([p.lat, p.lon]);
+          if (c.x < -margin || c.y < -margin || c.x > size.x + margin || c.y > size.y + margin) continue;
+          ctx.beginPath();
+          ctx.rect(c.x - 4, c.y - 4, 8, 8);
+          ctx.fill();
+          ctx.stroke();
+        }
+      }
+    });
+    const clientPhotoLayer = new ClientPhotoCanvasLayer();
+    clientPhotoLayer.addTo(map);
+
+    function findExifSegment(buffer) {
+      const view = new DataView(buffer);
+      if (view.byteLength < 4 || view.getUint16(0, false) !== 0xffd8) return null;
+      let offset = 2;
+      while (offset + 4 < view.byteLength) {
+        if (view.getUint8(offset) !== 0xff) return null;
+        const marker = view.getUint8(offset + 1);
+        const length = view.getUint16(offset + 2, false);
+        if (marker === 0xe1) {
+          const header = new Uint8Array(buffer, offset + 4, 6);
+          const isExif = header[0] === 0x45 && header[1] === 0x78 && header[2] === 0x69 && header[3] === 0x66;
+          if (isExif) return { start: offset + 10, length: length - 8 };
+        }
+        offset += 2 + length;
+      }
+      return null;
+    }
+
+    function readAscii(view, offset, count) {
+      let text = '';
+      for (let i = 0; i < count; i++) {
+        const c = view.getUint8(offset + i);
+        if (c === 0) break;
+        text += String.fromCharCode(c);
+      }
+      return text;
+    }
+
+    function readValue(view, tiffStart, valueOffset, type, count, little) {
+      const sizes = {1:1,2:1,3:2,4:4,5:8,7:1,9:4,10:8};
+      const total = (sizes[type] || 0) * count;
+      const dataOffset = total <= 4 ? valueOffset : tiffStart + view.getUint32(valueOffset, little);
+      if (type === 2) return readAscii(view, dataOffset, count);
+      if (type === 3) {
+        const values = [];
+        for (let i = 0; i < count; i++) values.push(view.getUint16(dataOffset + i * 2, little));
+        return count === 1 ? values[0] : values;
+      }
+      if (type === 4) {
+        const values = [];
+        for (let i = 0; i < count; i++) values.push(view.getUint32(dataOffset + i * 4, little));
+        return count === 1 ? values[0] : values;
+      }
+      if (type === 5) {
+        const values = [];
+        for (let i = 0; i < count; i++) {
+          const n = view.getUint32(dataOffset + i * 8, little);
+          const d = view.getUint32(dataOffset + i * 8 + 4, little);
+          values.push(d ? n / d : NaN);
+        }
+        return count === 1 ? values[0] : values;
+      }
+      return null;
+    }
+
+    function readIfd(view, tiffStart, ifdOffset, little) {
+      const absolute = tiffStart + ifdOffset;
+      const count = view.getUint16(absolute, little);
+      const tags = {};
+      for (let i = 0; i < count; i++) {
+        const entry = absolute + 2 + i * 12;
+        const tag = view.getUint16(entry, little);
+        const type = view.getUint16(entry + 2, little);
+        const valueCount = view.getUint32(entry + 4, little);
+        tags[tag] = readValue(view, tiffStart, entry + 8, type, valueCount, little);
+      }
+      return tags;
+    }
+
+    function dmsToDecimal(dms, ref) {
+      if (!Array.isArray(dms) || dms.length < 3) return null;
+      let value = dms[0] + dms[1] / 60 + dms[2] / 3600;
+      if (ref === 'S' || ref === 'W') value *= -1;
+      return value;
+    }
+
+    function extractGpsFromJpeg(buffer) {
+      const segment = findExifSegment(buffer);
+      if (!segment) return null;
+      const view = new DataView(buffer);
+      const tiffStart = segment.start;
+      const byteOrder = view.getUint16(tiffStart, false);
+      const little = byteOrder === 0x4949;
+      if (!little && byteOrder !== 0x4d4d) return null;
+      if (view.getUint16(tiffStart + 2, little) !== 42) return null;
+      const ifd0 = readIfd(view, tiffStart, view.getUint32(tiffStart + 4, little), little);
+      const gpsOffset = ifd0[0x8825];
+      if (!gpsOffset) return null;
+      const gps = readIfd(view, tiffStart, gpsOffset, little);
+      const lat = dmsToDecimal(gps[2], gps[1]);
+      const lon = dmsToDecimal(gps[4], gps[3]);
+      if (lat === null || lon === null) return null;
+      return { lat, lon };
+    }
+
+    async function handlePhotoFiles(files) {
+      const status = document.getElementById('photoExifStatus');
+      status.textContent = `Reading ${files.length} photo(s) locally...`;
+      let found = 0;
+      let skipped = 0;
+      for (const file of files) {
+        try {
+          const gps = extractGpsFromJpeg(await file.arrayBuffer());
+          if (gps) {
+            clientPhotoPoints.push({ lat: gps.lat, lon: gps.lon, name: file.name });
+            found++;
+          } else {
+            skipped++;
+          }
+        } catch (_err) {
+          skipped++;
+        }
+      }
+      clientPhotoLayer._reset();
+      if (clientPhotoPoints.length) {
+        const bounds = L.latLngBounds(clientPhotoPoints.map(p => [p.lat, p.lon]));
+        map.fitBounds(bounds.pad(0.1));
+      }
+      status.textContent = `Added ${found} geotagged photo location(s). Skipped ${skipped} without readable GPS. Photos were not uploaded.`;
+    }
+
+    document.getElementById('photoExifInput').addEventListener('change', event => {
+      const files = Array.from(event.target.files || []);
+      if (files.length) handlePhotoFiles(files);
+    });
+
     L.control.layers(
       {
         'CARTO Light': carto,
@@ -170,7 +355,8 @@
         'Mohanpura AOI': aoiLayer,
         'Drone photo locations': droneLayer,
         'DGPS BM/Base': bmLayer,
-        'DGPS TBM': tbmLayer
+        'DGPS TBM': tbmLayer,
+        'Client-side extracted photo locations': clientPhotoLayer
       },
       { collapsed: false }
     ).addTo(map);
