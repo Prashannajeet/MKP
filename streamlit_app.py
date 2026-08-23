@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 ROOT = Path(__file__).resolve().parent
@@ -76,13 +77,7 @@ col2.metric("AOI Features", "1")
 col3.metric("BM/Base", f"{dgps_types.get('BM/Base', 0):,}")
 col4.metric("TBM", f"{dgps_types.get('TBM', 0):,}")
 
-st.iframe("/app/static/drone_photo_webmap.html?v=9", height=820)
+components.html(SOURCE_WEBMAP.read_text(encoding="utf-8"), height=820)
 
-with st.expander("DGPS BM/TBM table", expanded=False):
-    rows = []
-    for feature in dgps["features"]:
-        row = dict(feature["properties"])
-        row["longitude"] = feature["geometry"]["coordinates"][0]
-        row["latitude"] = feature["geometry"]["coordinates"][1]
-        rows.append(row)
-    st.dataframe(rows, hide_index=True, width="stretch")
+with st.expander("DGPS BM/TBM records", expanded=False):
+    st.json(dgps, expanded=False)
