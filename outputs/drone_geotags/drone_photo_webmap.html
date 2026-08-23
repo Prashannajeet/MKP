@@ -30,6 +30,17 @@
     .client-tool { margin-top: 10px; padding-top: 9px; border-top: 1px solid #d6dde3; }
     .client-tool input { width: 100%; font-size: 12px; }
     .client-status { color: #53616d; font-size: 11.5px; margin-top: 6px; }
+    .style-tool {
+      position: absolute; z-index: 1000; top: 12px; right: 12px; width: 260px; max-width: calc(100vw - 48px);
+      background: rgba(255,255,255,.96); border: 1px solid #b8c2cc; border-radius: 6px;
+      padding: 10px 12px; box-shadow: 0 3px 14px rgba(23,32,38,.18);
+    }
+    .style-tool h2 { font-size: 14px; margin: 0 0 8px; }
+    .style-row { display: grid; grid-template-columns: 88px 1fr 44px; gap: 7px; align-items: center; margin: 6px 0; font-size: 12px; }
+    .style-row input[type="color"] { width: 36px; height: 24px; padding: 0; border: 1px solid #b8c2cc; background: white; }
+    .style-row input[type="range"] { width: 100%; }
+    .style-row output { color: #53616d; text-align: right; font-size: 11px; }
+    .style-reset { margin-top: 8px; width: 100%; border: 1px solid #b8c2cc; border-radius: 5px; background: #f8fafb; padding: 5px 8px; cursor: pointer; }
     .control-marker { transform: translate(-50%, -50%); }
     .control-marker.bm { width: 14px; height: 14px; border-radius: 50%; background: #1d4ed8; border: 2px solid #fff; box-shadow: 0 0 0 1px #1e3a8a, 0 2px 6px rgba(0,0,0,.35); }
     .control-marker.tbm { width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid #f59e0b; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
@@ -54,6 +65,17 @@
       <input id="photoExifInput" type="file" accept=".jpg,.jpeg,image/jpeg" multiple />
       <div id="photoExifStatus" class="client-status">JPG photos stay in this browser. Only coordinates are drawn.</div>
     </div>
+  </div>
+  <div class="style-tool">
+    <h2>Layer Style</h2>
+    <div class="style-row"><label for="aoiColor">AOI</label><input id="aoiColor" type="color" value="#005f73"><output></output></div>
+    <div class="style-row"><label for="aoiWidth">AOI width</label><input id="aoiWidth" type="range" min="1" max="8" step="0.5" value="3.5"><output id="aoiWidthOut">3.5</output></div>
+    <div class="style-row"><label for="droneColor">Drone</label><input id="droneColor" type="color" value="#dc2626"><output></output></div>
+    <div class="style-row"><label for="droneRadius">Drone size</label><input id="droneRadius" type="range" min="1" max="6" step="0.2" value="2.2"><output id="droneRadiusOut">2.2</output></div>
+    <div class="style-row"><label for="bmColor">BM/Base</label><input id="bmColor" type="color" value="#1d4ed8"><output></output></div>
+    <div class="style-row"><label for="tbmColor">TBM</label><input id="tbmColor" type="color" value="#f59e0b"><output></output></div>
+    <div class="style-row"><label for="clientColor">Client</label><input id="clientColor" type="color" value="#16a34a"><output></output></div>
+    <button id="styleReset" class="style-reset" type="button">Reset styles</button>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
@@ -82,6 +104,30 @@
       maxZoom: 22,
       attribution: 'Labels &copy; Esri'
     });
+
+    const styleState = {
+      aoiColor: '#005f73',
+      aoiWidth: 3.5,
+      droneColor: '#dc2626',
+      droneStroke: '#7f1d1d',
+      droneRadius: 2.2,
+      bmColor: '#1d4ed8',
+      tbmColor: '#f59e0b',
+      clientColor: '#16a34a',
+      clientStroke: '#14532d'
+    };
+    function hexToRgba(hex, alpha) {
+      const value = hex.replace('#', '');
+      const r = parseInt(value.slice(0, 2), 16);
+      const g = parseInt(value.slice(2, 4), 16);
+      const b = parseInt(value.slice(4, 6), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+    function darkerHex(hex) {
+      const value = hex.replace('#', '');
+      const parts = [0, 2, 4].map(i => Math.max(0, Math.round(parseInt(value.slice(i, i + 2), 16) * 0.55)));
+      return '#' + parts.map(v => v.toString(16).padStart(2, '0')).join('');
+    }
 
     const DroneCanvasLayer = L.Layer.extend({
       onAdd: function(map) {
@@ -113,10 +159,10 @@
         const ctx = this._canvas.getContext('2d');
         const size = this._map.getSize();
         ctx.clearRect(0, 0, size.x, size.y);
-        ctx.fillStyle = 'rgba(220,38,38,0.55)';
-        ctx.strokeStyle = 'rgba(127,29,29,0.75)';
+        ctx.fillStyle = hexToRgba(styleState.droneColor, 0.55);
+        ctx.strokeStyle = hexToRgba(styleState.droneStroke, 0.75);
         ctx.lineWidth = 0.8;
-        const radius = this._map.getZoom() >= 17 ? 3.2 : 2.2;
+        const radius = this._map.getZoom() >= 17 ? styleState.droneRadius + 1 : styleState.droneRadius;
         const margin = 16;
         for (let i = 0; i < dronePoints.length; i++) {
           const p = dronePoints[i];
@@ -200,8 +246,8 @@
         const ctx = this._canvas.getContext('2d');
         const size = this._map.getSize();
         ctx.clearRect(0, 0, size.x, size.y);
-        ctx.fillStyle = 'rgba(22,163,74,0.9)';
-        ctx.strokeStyle = 'rgba(20,83,45,0.95)';
+        ctx.fillStyle = hexToRgba(styleState.clientColor, 0.9);
+        ctx.strokeStyle = hexToRgba(styleState.clientStroke, 0.95);
         ctx.lineWidth = 1.2;
         const margin = 16;
         for (let i = 0; i < clientPhotoPoints.length; i++) {
@@ -365,6 +411,65 @@
     aoiLayer.bringToFront();
     bmLayer.eachLayer(layer => layer.setZIndexOffset(1000));
     tbmLayer.eachLayer(layer => layer.setZIndexOffset(1100));
+
+    function updateControlMarkerStyles() {
+      document.querySelectorAll('.control-marker.bm').forEach(el => {
+        el.style.background = styleState.bmColor;
+        el.style.boxShadow = `0 0 0 1px ${darkerHex(styleState.bmColor)}, 0 2px 6px rgba(0,0,0,.35)`;
+      });
+      document.querySelectorAll('.control-marker.tbm').forEach(el => {
+        el.style.borderBottomColor = styleState.tbmColor;
+        el.style.filter = `drop-shadow(0 1px 2px ${darkerHex(styleState.tbmColor)})`;
+      });
+    }
+    function applyStyles() {
+      styleState.droneStroke = darkerHex(styleState.droneColor);
+      styleState.clientStroke = darkerHex(styleState.clientColor);
+      aoiLayer.setStyle({
+        color: styleState.aoiColor,
+        weight: styleState.aoiWidth,
+        opacity: 1,
+        fillOpacity: 0,
+        dashArray: '9 5'
+      });
+      droneLayer._reset();
+      clientPhotoLayer._reset();
+      updateControlMarkerStyles();
+      document.getElementById('aoiWidthOut').textContent = styleState.aoiWidth;
+      document.getElementById('droneRadiusOut').textContent = styleState.droneRadius;
+    }
+    function bindStyleInput(id, key, parser = value => value) {
+      const input = document.getElementById(id);
+      input.addEventListener('input', () => {
+        styleState[key] = parser(input.value);
+        applyStyles();
+      });
+    }
+    bindStyleInput('aoiColor', 'aoiColor');
+    bindStyleInput('aoiWidth', 'aoiWidth', Number);
+    bindStyleInput('droneColor', 'droneColor');
+    bindStyleInput('droneRadius', 'droneRadius', Number);
+    bindStyleInput('bmColor', 'bmColor');
+    bindStyleInput('tbmColor', 'tbmColor');
+    bindStyleInput('clientColor', 'clientColor');
+    document.getElementById('styleReset').addEventListener('click', () => {
+      const defaults = {
+        aoiColor: '#005f73',
+        aoiWidth: 3.5,
+        droneColor: '#dc2626',
+        droneRadius: 2.2,
+        bmColor: '#1d4ed8',
+        tbmColor: '#f59e0b',
+        clientColor: '#16a34a'
+      };
+      for (const [key, value] of Object.entries(defaults)) {
+        styleState[key] = value;
+        const input = document.getElementById(key);
+        if (input) input.value = value;
+      }
+      applyStyles();
+    });
+    applyStyles();
   </script>
 </body>
 </html>
