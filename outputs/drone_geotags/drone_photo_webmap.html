@@ -51,6 +51,13 @@
     .control-marker { transform: translate(-50%, -50%); }
     .control-marker.bm { width: 14px; height: 14px; border-radius: 50%; background: #1d4ed8; border: 2px solid #fff; box-shadow: 0 0 0 1px #1e3a8a, 0 2px 6px rgba(0,0,0,.35); }
     .control-marker.tbm { width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid #f59e0b; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
+    .leaflet-tooltip.dgps-label {
+      color: #172026; background: rgba(255,255,255,.92); border: 1px solid #b8c2cc;
+      border-left: 3px solid #1d4ed8; border-radius: 4px; box-shadow: 0 1px 5px rgba(23,32,38,.18);
+      font: 700 11px/1.1 Arial, sans-serif; padding: 3px 5px; pointer-events: none;
+    }
+    .leaflet-tooltip.dgps-label::before { display: none; }
+    .leaflet-tooltip.tbm-label { border-left-color: #f59e0b; }
   </style>
 </head>
 <body>
@@ -146,6 +153,15 @@
       const parts = [0, 2, 4].map(i => Math.max(0, Math.round(parseInt(value.slice(i, i + 2), 16) * 0.55)));
       return '#' + parts.map(v => v.toString(16).padStart(2, '0')).join('');
     }
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
+    }
 
     const DroneCanvasLayer = L.Layer.extend({
       onAdd: function(map) {
@@ -228,6 +244,13 @@
       const elev = props.elevation_m === null ? '' : `<br><b>Elevation:</b> ${props.elevation_m} m`;
       const flight = props.flight_no ? `<br><b>Flight:</b> ${props.flight_no}` : '';
       marker.bindPopup(`<b>${props.point_id}</b><br><b>Type:</b> ${props.type}${elev}<br><b>Date:</b> ${props.date || ''}<br><b>Remark:</b> ${props.remark || ''}${flight}<br><b>UTM:</b> ${props.easting}, ${props.northing}`);
+      marker.bindTooltip(escapeHtml(props.point_id), {
+        permanent: true,
+        direction: 'right',
+        offset: props.type === 'TBM' ? [12, 0] : [10, 0],
+        opacity: 0.96,
+        className: `dgps-label ${props.type === 'TBM' ? 'tbm-label' : 'bm-label'}`
+      });
       marker.addTo(props.type === 'TBM' ? tbmLayer : bmLayer);
     }
     bmLayer.addTo(map);
@@ -472,6 +495,12 @@
       document.querySelectorAll('.control-marker.tbm').forEach(el => {
         el.style.borderBottomColor = styleState.tbmColor;
         el.style.filter = `drop-shadow(0 1px 2px ${darkerHex(styleState.tbmColor)})`;
+      });
+      document.querySelectorAll('.leaflet-tooltip.bm-label').forEach(el => {
+        el.style.borderLeftColor = styleState.bmColor;
+      });
+      document.querySelectorAll('.leaflet-tooltip.tbm-label').forEach(el => {
+        el.style.borderLeftColor = styleState.tbmColor;
       });
     }
     function applyStyles() {
