@@ -169,8 +169,8 @@ def add_uploaded_layer(base_html: str, uploaded_points: list[list[float | str]])
         const ctx = this._canvas.getContext('2d');
         const size = this._map.getSize();
         ctx.clearRect(0, 0, size.x, size.y);
-        ctx.fillStyle = 'rgba(22,163,74,0.88)';
-        ctx.strokeStyle = 'rgba(20,83,45,0.95)';
+        ctx.fillStyle = hexToRgba(styleState.clientColor, 0.88);
+        ctx.strokeStyle = hexToRgba(styleState.clientStroke, 0.95);
         ctx.lineWidth = 1.2;
         const margin = 16;
         for (let i = 0; i < uploadedPoints.length; i++) {{
@@ -187,8 +187,9 @@ def add_uploaded_layer(base_html: str, uploaded_points: list[list[float | str]])
     const uploadedLayer = new UploadedCanvasLayer();
     uploadedLayer.addTo(map);
 """
-    html = base_html.replace("    tbmLayer.addTo(map);\n\n    L.control.layers(", f"    tbmLayer.addTo(map);\n{layer_script}\n    L.control.layers(")
+    html = base_html.replace("    L.control.layers(", f"{layer_script}\n    L.control.layers(")
     html = html.replace("        'DGPS TBM': tbmLayer", "        'DGPS TBM': tbmLayer,\n        'Uploaded photo locations': uploadedLayer")
+    html = html.replace("      clientPhotoLayer._reset();", "      clientPhotoLayer._reset();\n      uploadedLayer._reset();")
     html = html.replace(
         '<p class="legend-item"><span class="legend-tbm"></span>DGPS TBM control</p>',
         '<p class="legend-item"><span class="legend-tbm"></span>DGPS TBM control</p>\n    <p class="legend-item"><span style="width:10px;height:10px;background:#16a34a;border:1px solid #14532d;display:inline-block;flex:0 0 auto;"></span>Uploaded photo locations</p>',
