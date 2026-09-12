@@ -1,7 +1,7 @@
 {
   "source_root": "G:\\01 Data\\Drone Data\\MKP\\02 Drone",
-  "images_scanned": 12439,
-  "geotagged_images": 12439,
+  "images_scanned": 14871,
+  "geotagged_images": 14871,
   "images_without_gps_or_unreadable": 0,
   "bounds_wgs84": {
     "min_lon": 76.70133836111111,
