@@ -1,21 +1,26 @@
 {
-  "source_root": "G:\\01 Data\\Drone Data\\MKP\\02 Drone",
-  "images_scanned": 14871,
-  "geotagged_images": 14871,
-  "images_without_gps_or_unreadable": 0,
+  "source_version": "Final submission · 12 October 2026",
+  "source_flight_csv": "D:\\01 Project\\Development\\Mohan_Kundaliya\\Reports\\Mohanpura_A3_Atlas\\R06_Single_Profile_Sections\\Mohanpura_Flight_Geotags_R06.csv",
+  "source_control_csv": "D:\\01 Project\\Development\\Mohan_Kundaliya\\Deliverables\\Mohanpura_Final_Submission_2026-10-12\\03_GIS\\BM_TBM.csv",
+  "source_aoi": "D:\\01 Project\\Development\\Mohan_Kundaliya\\Deliverables\\Mohanpura_Final_Submission_2026-10-12\\03_GIS\\Map_Geometry.json",
+  "geotagged_images": 30113,
+  "flight_groups": 84,
+  "aoi_km2": 34.526724988574045,
   "bounds_wgs84": {
-    "min_lon": 76.70133836111111,
-    "min_lat": 23.952326527777778,
-    "max_lon": 76.77714394444445,
-    "max_lat": 24.077800555555555
+    "min_lon": 76.6411714331248,
+    "min_lat": 23.948194381012748,
+    "max_lon": 76.77965726282117,
+    "max_lat": 24.196072269
+  },
+  "control_counts": {
+    "BM/Base": 20,
+    "TBM": 40
   },
   "outputs": [
-    "drone_photo_locations.shp",
-    "drone_photo_locations.shx",
-    "drone_photo_locations.dbf",
-    "drone_photo_locations.prj",
     "drone_photo_locations.csv",
     "drone_photo_locations.geojson",
+    "mohanpura_aoi.geojson",
+    "mohanpura_dgps_bm_tbm.geojson",
     "drone_photo_webmap.html"
   ]
 }

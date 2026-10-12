@@ -4,500 +4,412 @@
     {
       "type": "Feature",
       "properties": {
-        "point_id": "BMO(Office Building)",
+        "point_id": "BM-BMO",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "BMO(Office Building)",
         "easting": 675744.172,
         "northing": 2655893.618,
         "elevation_m": 393.477,
         "date": "2026-08-05",
-        "remark": "Office Building",
-        "flight_no": "",
-        "source_row": 3
+        "inside_aoi": "False",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7277710751,
-          24.0053187493
+          76.727771075,
+          24.00531875
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M-2(Dam Top)",
+        "point_id": "BM-M02",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M-2(Dam Top)",
         "easting": 680837.844,
         "northing": 2651749.77,
         "elevation_m": 402.763,
         "date": "2026-08-05",
-        "remark": "Dam Top",
-        "flight_no": "",
-        "source_row": 4
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7773156064,
-          23.9673358542
+          76.777315606,
+          23.967335855
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "Known Point (Base)",
+        "point_id": "REF-001",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "REFERENCE",
+        "source_id": "Known Point (Base)",
         "easting": 681068.6,
         "northing": 2652351.206,
         "elevation_m": 400.02,
         "date": "2026-08-05",
-        "remark": "Known Point",
-        "flight_no": "",
-        "source_row": 5
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7796572629,
-          23.9727393102
+          76.779657263,
+          23.972739311
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M-3",
+        "point_id": "BM-M03",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M-3",
         "easting": 678851.845,
         "northing": 2652252.039,
         "elevation_m": 394.224,
         "date": "2026-08-07",
-        "remark": "M-3",
-        "flight_no": "",
-        "source_row": 7
+        "inside_aoi": "False",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7578654834,
-          23.9720951265
+          76.757865483,
+          23.972095127
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M-5",
+        "point_id": "BM-M05",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M-5",
         "easting": 677368.649,
         "northing": 2653300.375,
         "elevation_m": 382.708,
         "date": "2026-08-07",
-        "remark": "M-5",
-        "flight_no": "",
-        "source_row": 8
+        "inside_aoi": "False",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7434204103,
-          23.9817259004
+          76.74342041,
+          23.981725901
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M-6",
+        "point_id": "BM-M06",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M-6",
         "easting": 677367.368,
         "northing": 2655338.705,
         "elevation_m": 357.731,
         "date": "2026-08-07",
-        "remark": "M-6",
-        "flight_no": "",
-        "source_row": 9
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           76.743655723,
-          24.0001282857
+          24.000128286
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "BMO",
+        "point_id": "BM-M07",
         "type": "BM/Base",
-        "base_shift": "M2 To BMO",
-        "easting": 675744.172,
-        "northing": 2655893.618,
-        "elevation_m": 393.477,
-        "date": "2026-08-08",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 10
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7277710751,
-          24.0053187493
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "M7",
-        "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M7",
         "easting": 676398.618,
         "northing": 2656431.796,
         "elevation_m": 350.774,
         "date": "2026-08-08",
-        "remark": "M7",
-        "flight_no": "",
-        "source_row": 11
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7342679059,
-          24.0101048455
+          76.734267906,
+          24.010104846
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M8",
+        "point_id": "BM-M08",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M8",
         "easting": 675011.367,
         "northing": 2657272.594,
         "elevation_m": 355.381,
         "date": "2026-08-08",
-        "remark": "M8",
-        "flight_no": "",
-        "source_row": 12
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7207349533,
-          24.017849415
+          76.720734953,
+          24.017849416
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M9",
+        "point_id": "BM-M09",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M9",
         "easting": 674475.13,
         "northing": 2658599.124,
         "elevation_m": 384.162,
         "date": "2026-08-08",
-        "remark": "M9",
-        "flight_no": "",
-        "source_row": 13
+        "inside_aoi": "False",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7156234347,
-          24.0298846895
+          76.715623435,
+          24.02988469
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M10",
+        "point_id": "BM-M10",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M10",
         "easting": 674123.451,
         "northing": 2659845.941,
         "elevation_m": 365.217,
-        "date": "14/08/2026",
-        "remark": "",
-        "flight_no": "",
-        "source_row": 15
+        "date": "2026-08-14",
+        "inside_aoi": "False",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7123157902,
-          24.0411798827
+          76.71231579,
+          24.041179883
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M11",
+        "point_id": "BM-M11",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M11",
         "easting": 673331.173,
         "northing": 2662597.896,
         "elevation_m": 377.998,
-        "date": "14/08/2026",
-        "remark": "",
-        "flight_no": "",
-        "source_row": 16
+        "date": "2026-08-14",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7048554908,
-          24.0661120224
+          76.704855491,
+          24.066112023
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M12",
+        "point_id": "BM-M12",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M12",
         "easting": 672061.934,
         "northing": 2664576.772,
         "elevation_m": 382.662,
-        "date": "14/08/2026",
-        "remark": "",
-        "flight_no": "",
-        "source_row": 17
+        "date": "2026-08-14",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.6926102926,
-          24.0841163665
+          76.692610293,
+          24.084116367
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M12A",
+        "point_id": "BM-M12A",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M12A",
         "easting": 672057.186,
         "northing": 2665885.459,
         "elevation_m": 370.163,
-        "date": "15/08/2026",
-        "remark": "",
-        "flight_no": "",
-        "source_row": 19
+        "date": "2026-08-15",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.6927188376,
-          24.0959320009
+          76.692718838,
+          24.095932001
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M14",
+        "point_id": "BM-M14",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M14",
         "easting": 670930.144,
         "northing": 2669129.739,
         "elevation_m": 386.62,
-        "date": "15/08/2026",
-        "remark": "",
-        "flight_no": "",
-        "source_row": 20
+        "date": "2026-08-15",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.6820173553,
-          24.1253445308
+          76.682017355,
+          24.125344531
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M15",
+        "point_id": "BM-M15",
         "type": "BM/Base",
-        "base_shift": "",
+        "source_type": "BM",
+        "source_id": "M15",
         "easting": 671320.332,
         "northing": 2670942.584,
         "elevation_m": 375.384,
-        "date": "15/08/2026",
-        "remark": "",
-        "flight_no": "",
-        "source_row": 21
+        "date": "2026-08-15",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           76.686070283,
-          24.1416689326
+          24.141668933
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M2Base",
-        "type": "BM/Base",
-        "base_shift": "BMO To M2",
-        "easting": 680837.844,
-        "northing": 2651749.77,
-        "elevation_m": 402.763,
-        "date": "17/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 22
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7773156064,
-          23.9673358542
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "TBM1",
+        "point_id": "TBM-001",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "TBM1",
         "easting": 680431.579,
         "northing": 2651807.876,
         "elevation_m": 368.545,
-        "date": "17/08/2026",
-        "remark": "TBM",
-        "flight_no": "flight-M2&M3",
-        "source_row": 23
+        "date": "2026-08-17",
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           76.773331414,
-          23.9679066138
+          23.967906614
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M6Base",
-        "type": "BM/Base",
-        "base_shift": "M2 To M6",
-        "easting": 677367.368,
-        "northing": 2655338.705,
-        "elevation_m": 357.731,
-        "date": "17/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 24
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.743655723,
-          24.0001282857
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "TBM2",
+        "point_id": "TBM-002",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "TBM2",
         "easting": 678692.817,
         "northing": 2655068.716,
         "elevation_m": 399.252,
-        "date": "17/08/2026",
-        "remark": "TBM",
-        "flight_no": "flight-M8&M8",
-        "source_row": 25
+        "date": "2026-08-17",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7566480366,
-          23.9975420995
+          76.756648037,
+          23.9975421
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M6_To_TBM",
+        "point_id": "TBM-003",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "M6_To_TBM",
         "easting": 679229.025,
         "northing": 2653235.339,
         "elevation_m": 376.101,
-        "date": "18/08/2026",
-        "remark": "TBM",
-        "flight_no": "Flight-M7",
-        "source_row": 27
+        "date": "2026-08-18",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7616920217,
-          23.9809298805
+          76.761692022,
+          23.980929881
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M9Base",
-        "type": "BM/Base",
-        "base_shift": "M6 To M9",
-        "easting": 674475.13,
-        "northing": 2658599.124,
-        "elevation_m": 384.162,
-        "date": "18/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 28
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7156234347,
-          24.0298846895
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "M9_TBM",
+        "point_id": "TBM-004",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "M9_TBM",
         "easting": 674324.917,
         "northing": 2658461.876,
         "elevation_m": 387.57,
-        "date": "18/08/2026",
-        "remark": "TBM",
-        "flight_no": "Flight-M12&M13",
-        "source_row": 29
+        "date": "2026-08-18",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
@@ -510,286 +422,902 @@
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M10 Base",
-        "type": "BM/Base",
-        "base_shift": "M9 To M10",
-        "easting": 674123.451,
-        "northing": 2659845.941,
-        "elevation_m": 365.217,
-        "date": "18/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 30
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7123157902,
-          24.0411798827
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "TBM1",
+        "point_id": "TBM-005",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "TBM1",
         "easting": 673813.958,
         "northing": 2659260.979,
         "elevation_m": 378.013,
-        "date": "18/08/2026",
-        "remark": "TBM1",
-        "flight_no": "Flight-M14",
-        "source_row": 31
+        "date": "2026-08-18",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7092034196,
-          24.0359327252
+          76.70920342,
+          24.035932726
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M10_To_TBM2",
+        "point_id": "TBM-006",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "M10_To_TBM2",
         "easting": 674088.403,
         "northing": 2661425.007,
         "elevation_m": 386.619,
-        "date": "18/08/2026",
-        "remark": "TBM2",
-        "flight_no": "Flight-M15",
-        "source_row": 32
+        "date": "2026-08-18",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7121603388,
-          24.0554398286
+          76.712160339,
+          24.055439829
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "BaseM10TBM2",
+        "point_id": "TBM-007",
         "type": "TBM",
-        "base_shift": "BaseM10TBM2",
-        "easting": 674088.403,
-        "northing": 2661425.007,
-        "elevation_m": 386.619,
-        "date": "19/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 33
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7121603388,
-          24.0554398286
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "TBM",
-        "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "TBM",
         "easting": 674346.024,
         "northing": 2661647.834,
         "elevation_m": 380.516,
-        "date": "19/08/2026",
-        "remark": "TBM",
-        "flight_no": "Flight-M16,M17,M18",
-        "source_row": 34
+        "date": "2026-08-19",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7147198917,
-          24.0574231857
+          76.714719892,
+          24.057423186
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "BaseM12",
-        "type": "BM/Base",
-        "base_shift": "",
-        "easting": 672061.934,
-        "northing": 2664576.772,
-        "elevation_m": 382.662,
-        "date": "19/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 35
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.6926102926,
-          24.0841163665
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "M12_To_TBM",
+        "point_id": "TBM-008",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "M12_To_TBM",
         "easting": 672058.495,
         "northing": 2663282.738,
         "elevation_m": 396.074,
-        "date": "19/08/2026",
-        "remark": "TBM",
-        "flight_no": "Flight-M19",
-        "source_row": 36
+        "date": "2026-08-19",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.6924230731,
-          24.0724338952
+          76.692423073,
+          24.072433896
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "BMO Base",
-        "type": "BM/Base",
-        "base_shift": "B12 To BMO",
-        "easting": 675744.172,
-        "northing": 2655893.618,
-        "elevation_m": 393.477,
-        "date": "20/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 37
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7277710751,
-          24.0053187493
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "TBM",
+        "point_id": "TBM-009",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "TBM",
         "easting": 674218.953,
         "northing": 2655341.068,
         "elevation_m": 413.339,
-        "date": "20/08/2026",
-        "remark": "TBM",
-        "flight_no": "Flight-M10,M11",
-        "source_row": 38
+        "date": "2026-08-20",
+        "inside_aoi": "False",
+        "inside_dem": "False"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7127155836,
-          24.0004984471
+          76.712715584,
+          24.000498448
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M7Base",
-        "type": "BM/Base",
-        "base_shift": "BMO To M7",
-        "easting": 676398.618,
-        "northing": 2656431.796,
-        "elevation_m": 350.774,
-        "date": "21/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 39
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7342679059,
-          24.0101048455
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "M7_TBM",
+        "point_id": "TBM-010",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "M7_TBM",
         "easting": 677059.482,
         "northing": 2655844.554,
         "elevation_m": 359.003,
-        "date": "21/08/2026",
-        "remark": "TBM",
-        "flight_no": "",
-        "source_row": 40
+        "date": "2026-08-21",
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7406915135,
-          24.0047295273
+          76.740691513,
+          24.004729528
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "point_id": "M8Base",
-        "type": "BM/Base",
-        "base_shift": "M7 To M8",
-        "easting": 675011.367,
-        "northing": 2657272.594,
-        "elevation_m": 355.381,
-        "date": "21/08/2026",
-        "remark": "Base",
-        "flight_no": "",
-        "source_row": 41
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          76.7207349533,
-          24.017849415
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "point_id": "M8_TBM1",
+        "point_id": "TBM-011",
         "type": "TBM",
-        "base_shift": "",
+        "source_type": "TBM",
+        "source_id": "M8_TBM1",
         "easting": 676124.858,
         "northing": 2657033.308,
         "elevation_m": 357.384,
-        "date": "21/08/2026",
-        "remark": "TBM",
-        "flight_no": "",
-        "source_row": 42
+        "date": "2026-08-21",
+        "inside_aoi": "True",
+        "inside_dem": "True"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          76.7316501167,
-          24.0155657994
+          76.731650117,
+          24.0155658
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BM-M13",
+        "type": "BM/Base",
+        "source_type": "BM",
+        "source_id": "M13",
+        "easting": 671512.377,
+        "northing": 2666121.167,
+        "elevation_m": 343.142,
+        "date": "2026-08-22",
+        "inside_aoi": "True",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.687388642,
+          24.09811928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BM-M16",
+        "type": "BM/Base",
+        "source_type": "BM",
+        "source_id": "M16",
+        "easting": 668596.167,
+        "northing": 2673032.621,
+        "elevation_m": 365.339,
+        "date": "2026-08-22",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.65951268,
+          24.160832167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BM-M17",
+        "type": "BM/Base",
+        "source_type": "BM",
+        "source_id": "M17",
+        "easting": 668410.407,
+        "northing": 2674165.746,
+        "elevation_m": 355.959,
+        "date": "2026-08-22",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.657816929,
+          24.17108223
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-012",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M8_To_TBM",
+        "easting": 674505.154,
+        "northing": 2657977.255,
+        "elevation_m": 363.19,
+        "date": "2026-08-22",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.715844001,
+          24.024267034
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BM-M04",
+        "type": "BM/Base",
+        "source_type": "BM",
+        "source_id": "M4",
+        "easting": 677851.791,
+        "northing": 2649592.235,
+        "elevation_m": 406.849,
+        "date": "2026-08-24",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.747716097,
+          23.948194381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-013",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M2Base_To_TBM",
+        "easting": 676330.852,
+        "northing": 2652199.927,
+        "elevation_m": 399.075,
+        "date": "2026-08-24",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.733090229,
+          23.971906449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-014",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M2Base_To_TBM1",
+        "easting": 675914.929,
+        "northing": 2654198.227,
+        "elevation_m": 403.976,
+        "date": "2026-08-24",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.729244641,
+          23.989993565
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-015",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M10_To_TBM3",
+        "easting": 673041.896,
+        "northing": 2662309.096,
+        "elevation_m": 386.421,
+        "date": "2026-09-07",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.701976787,
+          24.063536349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-016",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M10_To_TBM2",
+        "easting": 673824.811,
+        "northing": 2659692.949,
+        "elevation_m": 366.712,
+        "date": "2026-09-07",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.709361725,
+          24.039831449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-017",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M10_To_TBM1",
+        "easting": 674127.512,
+        "northing": 2660021.302,
+        "elevation_m": 365.112,
+        "date": "2026-09-07",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.712376708,
+          24.042762628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-018",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M12_To_TBM1",
+        "easting": 671969.847,
+        "northing": 2663839.578,
+        "elevation_m": 381.559,
+        "date": "2026-09-07",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.691617364,
+          24.077470827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-019",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M12_To_TBM2",
+        "easting": 672062.005,
+        "northing": 2664847.949,
+        "elevation_m": 375.266,
+        "date": "2026-09-07",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.69264315,
+          24.086564607
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-020",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "BMO_TBM1",
+        "easting": 676644.468,
+        "northing": 2656925.153,
+        "elevation_m": 362.839,
+        "date": "2026-09-08",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.736743948,
+          24.014531561
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-021",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "BMO_TBM2",
+        "easting": 676081.323,
+        "northing": 2658057.011,
+        "elevation_m": 384.895,
+        "date": "2026-09-08",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.731346033,
+          24.024812751
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-022",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "BMO_TBM3",
+        "easting": 675072.53,
+        "northing": 2656641.422,
+        "elevation_m": 382.888,
+        "date": "2026-09-08",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.721260235,
+          24.012144331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-023",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "BMO_TBM4",
+        "easting": 674786.156,
+        "northing": 2656247.783,
+        "elevation_m": 394.886,
+        "date": "2026-09-08",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.718398453,
+          24.008622071
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-024",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "BMO_TBM5",
+        "easting": 675723.878,
+        "northing": 2654862.593,
+        "elevation_m": 391.636,
+        "date": "2026-09-08",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.727447335,
+          23.996012736
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-025",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "BMO_TBM6",
+        "easting": 676727.952,
+        "northing": 2654786.676,
+        "elevation_m": 387.869,
+        "date": "2026-09-08",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.737305117,
+          23.995215851
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-026",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M12_To_TBM",
+        "easting": 672099.121,
+        "northing": 2665565.306,
+        "elevation_m": 375.308,
+        "date": "2026-09-09",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.693093263,
+          24.093037023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-027",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M14_To_TBM",
+        "easting": 670124.546,
+        "northing": 2669516.91,
+        "elevation_m": 399.907,
+        "date": "2026-09-09",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.674138118,
+          24.128927105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-028",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M14_To_TBM1",
+        "easting": 670982.584,
+        "northing": 2668759.747,
+        "elevation_m": 364.731,
+        "date": "2026-09-10",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.682489516,
+          24.121998475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-029",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M15_To_TBM2",
+        "easting": 671340.181,
+        "northing": 2671048.526,
+        "elevation_m": 369.457,
+        "date": "2026-09-10",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.686278113,
+          24.14262324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-030",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M16_To_TBM",
+        "easting": 666969.684,
+        "northing": 2674116.83,
+        "elevation_m": 410.897,
+        "date": "2026-09-11",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.643633506,
+          24.170794088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "BM-M18",
+        "type": "BM/Base",
+        "source_type": "BM",
+        "source_id": "M18",
+        "easting": 669071.051,
+        "northing": 2676777.124,
+        "elevation_m": 373.552,
+        "date": "2026-09-12",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.66462404,
+          24.194587563
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-031",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "TBM1",
+        "easting": 668607.703,
+        "northing": 2676117.252,
+        "elevation_m": 386.265,
+        "date": "2026-09-12",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.659986419,
+          24.188679827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-032",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "TBM2",
+        "easting": 666713.279,
+        "northing": 2674646.398,
+        "elevation_m": 415.786,
+        "date": "2026-09-12",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.641171433,
+          24.175602397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-033",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "TBM3",
+        "easting": 667275.206,
+        "northing": 2673456.523,
+        "elevation_m": 396.908,
+        "date": "2026-09-12",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.646563592,
+          24.164800171
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-034",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "TBM4",
+        "easting": 668187.5,
+        "northing": 2673140.865,
+        "elevation_m": 385.858,
+        "date": "2026-09-12",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.655504034,
+          24.161853126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-035",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M13_To_TBM",
+        "easting": 671394.54,
+        "northing": 2666637.279,
+        "elevation_m": 350.827,
+        "date": "2026-09-13",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.68629074,
+          24.102791655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-036",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M18_To_TBM1",
+        "easting": 668607.699,
+        "northing": 2676117.247,
+        "elevation_m": 386.244,
+        "date": "2026-09-15",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.659986379,
+          24.188679783
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-037",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "TBM(Base) Date-11/09/2026_To-TBM2",
+        "easting": 667008.404,
+        "northing": 2674100.045,
+        "elevation_m": 409.043,
+        "date": "2026-09-15",
+        "inside_aoi": "False",
+        "inside_dem": "False"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.644012598,
+          24.170638439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-038",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M13_To_TBM1",
+        "easting": 671264.217,
+        "northing": 2667161.004,
+        "elevation_m": 350.699,
+        "date": "2026-09-16",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.68507086,
+          24.10753411
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-039",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M13_To_TBM2",
+        "easting": 670753.396,
+        "northing": 2667553.864,
+        "elevation_m": 350.9,
+        "date": "2026-09-16",
+        "inside_aoi": "False",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.680092873,
+          24.111136285
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "point_id": "TBM-040",
+        "type": "TBM",
+        "source_type": "TBM",
+        "source_id": "M13_To_TBM3",
+        "easting": 670872.913,
+        "northing": 2668335.397,
+        "elevation_m": 339.998,
+        "date": "2026-09-16",
+        "inside_aoi": "True",
+        "inside_dem": "True"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.681360631,
+          24.118179224
         ]
       }
     }

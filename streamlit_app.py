@@ -28,7 +28,7 @@ FINAL_DELIVERABLES = (
 
 
 st.set_page_config(
-    page_title="Mohanpura Drone Coverage",
+    page_title="Mohanpura Final Coverage",
     layout="wide",
 )
 
@@ -58,7 +58,9 @@ st.markdown(
 
 
 @st.cache_data(show_spinner=False)
-def load_json(path: Path) -> dict:
+def load_json(path: Path, modified_ns: int) -> dict:
+    """Load JSON, invalidating the cache when a delivery asset changes."""
+    del modified_ns
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -224,16 +226,16 @@ def render_submission_downloads() -> None:
 
 
 ensure_static_webmap()
-summary = load_json(SUMMARY_JSON)
-dgps = load_json(DGPS_GEOJSON)
+summary = load_json(SUMMARY_JSON, SUMMARY_JSON.stat().st_mtime_ns)
+dgps = load_json(DGPS_GEOJSON, DGPS_GEOJSON.stat().st_mtime_ns)
 dgps_types: dict[str, int] = {}
 for feature in dgps["features"]:
     point_type = feature["properties"]["type"]
     dgps_types[point_type] = dgps_types.get(point_type, 0) + 1
 
-st.title("Mohanpura Drone Coverage and Survey Control")
+st.title("Mohanpura Final Coverage and Survey Control")
 st.markdown(
-    '<p class="source-note">Use the layer control inside the map to switch basemaps and toggle AOI, drone photo locations, BM/Base, and TBM layers.</p>',
+    '<p class="source-note">Final-submission reference: flight geotags, final AOI and BM/TBM control register dated 12 October 2026. Use the layer control inside the map to switch basemaps and toggle the final AOI, flight geotags, BM/reference, and TBM layers.</p>',
     unsafe_allow_html=True,
 )
 
@@ -256,9 +258,9 @@ with st.expander("Add client photo locations", expanded=False):
     st.caption("Uploaded locations are added to the current session map only. Image files are not accepted or stored.")
 
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Drone Photos", f"{summary['geotagged_images']:,}")
-col2.metric("AOI Features", "1")
-col3.metric("BM/Base", f"{dgps_types.get('BM/Base', 0):,}")
+col1.metric("Final Flight Geotags", f"{summary['geotagged_images']:,}")
+col2.metric("Final AOI", f"{float(summary.get('aoi_km2', 0)):.2f} km²")
+col3.metric("BM / Reference", f"{dgps_types.get('BM/Base', 0):,}")
 col4.metric("TBM", f"{dgps_types.get('TBM', 0):,}")
 
 map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")

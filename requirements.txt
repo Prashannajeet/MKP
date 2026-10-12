@@ -1,1 +1,2 @@
 streamlit==1.62.0
+pyproj==3.6.1
