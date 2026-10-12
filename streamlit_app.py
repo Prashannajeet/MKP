@@ -17,6 +17,14 @@ SUMMARY_JSON = DATA_DIR / "summary.json"
 SOURCE_WEBMAP = DATA_DIR / "drone_photo_webmap.html"
 STATIC_DIR = ROOT / "static"
 STATIC_WEBMAP = STATIC_DIR / "drone_photo_webmap.html"
+GOOGLE_DRIVE_SUBMISSION_URL = "https://drive.google.com/drive/folders/1GTC_fSJDd5ROt-he2B7grUV5Ks9-81uV?usp=sharing"
+FINAL_SUBMISSION_FOLDER = "Mohanpura Final Submission · 12 October 2026"
+FINAL_DELIVERABLES = (
+    ("A3 Survey Atlas", "Terrain, orthomosaic, contours and PMF mapping"),
+    ("PMF Risk Report", "PMF inundation assessment and map sheets"),
+    ("PMF Building Risk Atlas", "Building-level PMF risk mapping"),
+    ("River Cross-Section Atlas", "HEC-RAS-ready cross-sections and stationing"),
+)
 
 
 st.set_page_config(
@@ -197,6 +205,24 @@ def add_uploaded_layer(base_html: str, uploaded_points: list[list[float | str]])
     return html
 
 
+def render_submission_downloads() -> None:
+    """Show the client-facing final-delivery gateway hosted in Google Drive."""
+    st.subheader("Mohanpura final submission")
+    st.caption("Final survey, terrain, PMF risk and cross-section deliverables")
+    st.link_button(
+        "Open final-delivery downloads in Google Drive",
+        GOOGLE_DRIVE_SUBMISSION_URL,
+        type="primary",
+        use_container_width=False,
+    )
+    st.caption(f"Delivery package: {FINAL_SUBMISSION_FOLDER}")
+    columns = st.columns(4)
+    for column, (title, description) in zip(columns, FINAL_DELIVERABLES):
+        with column:
+            st.markdown(f"**{title}**")
+            st.caption(description)
+
+
 ensure_static_webmap()
 summary = load_json(SUMMARY_JSON)
 dgps = load_json(DGPS_GEOJSON)
@@ -210,6 +236,9 @@ st.markdown(
     '<p class="source-note">Use the layer control inside the map to switch basemaps and toggle AOI, drone photo locations, BM/Base, and TBM layers.</p>',
     unsafe_allow_html=True,
 )
+
+render_submission_downloads()
+st.divider()
 
 with st.expander("Add client photo locations", expanded=False):
     uploaded_locations_file = st.file_uploader(
