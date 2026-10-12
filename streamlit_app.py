@@ -36,20 +36,46 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .block-container { padding: .75rem .9rem 1rem; max-width: 100%; }
-    h1 { font-size: 1.45rem; letter-spacing: 0; margin-bottom: .35rem; }
+    :root { --ll-navy: #093451; --ll-paper: #f3ecdf; --ll-cream: #fffaf0; --ll-line: #c9bfae; --ll-green: #2d806c; }
+    [data-testid="stAppViewContainer"], [data-testid="stApp"] { background: var(--ll-paper); color: var(--ll-navy); }
+    [data-testid="stHeader"] { background: rgba(243,236,223,.90); }
+    .block-container { padding: 1rem 1.15rem 1.4rem; max-width: 100%; }
+    h1 { color: var(--ll-navy); font-size: 1.75rem; letter-spacing: -.02em; margin-bottom: .35rem; }
+    h3 { color: var(--ll-navy); }
     [data-testid="stMetric"] {
-      background: #f8fafb;
-      border: 1px solid #d9e1e8;
-      border-radius: 6px;
-      padding: 8px 10px;
+      background: var(--ll-cream);
+      border: 1px solid var(--ll-line);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(53,45,30,.08);
+      padding: 10px 12px;
     }
-    [data-testid="stMetricLabel"] { color: #52616d; }
+    [data-testid="stMetricLabel"] { color: #53616d; }
+    [data-testid="stMetricValue"] { color: var(--ll-navy); }
+    [data-testid="stExpander"] {
+      background: rgba(255,250,240,.76);
+      border: 1px solid var(--ll-line);
+      border-radius: 8px;
+    }
+    [data-testid="stDivider"] { border-color: var(--ll-line); }
+    .stLinkButton > a {
+      background: var(--ll-navy) !important;
+      border: 1px solid var(--ll-navy) !important;
+      border-radius: 6px !important;
+      color: #fffaf0 !important;
+      font-weight: 650;
+      box-shadow: 0 2px 5px rgba(9,52,81,.18);
+    }
+    .stLinkButton > a:hover { background: #145271 !important; border-color: #145271 !important; }
+    .submission-kicker { color: var(--ll-green); font-size: .73rem; font-weight: 750; letter-spacing: .12em; margin: .55rem 0 -.35rem; }
     .source-note {
-      color: #52616d;
-      font-size: .86rem;
-      margin-top: -.2rem;
-      margin-bottom: .65rem;
+      color: #40525b;
+      font-size: .9rem;
+      line-height: 1.45;
+      background: rgba(255,250,240,.74);
+      border-left: 4px solid var(--ll-green);
+      border-radius: 0 6px 6px 0;
+      padding: .55rem .72rem;
+      margin: .1rem 0 .9rem;
     }
     </style>
     """,
@@ -209,6 +235,7 @@ def add_uploaded_layer(base_html: str, uploaded_points: list[list[float | str]])
 
 def render_submission_downloads() -> None:
     """Show the client-facing final-delivery gateway hosted in Google Drive."""
+    st.markdown('<div class="submission-kicker">FINAL SUBMISSION · 12 OCTOBER 2026</div>', unsafe_allow_html=True)
     st.subheader("Mohanpura final submission")
     st.caption("Final survey, terrain, PMF risk and cross-section deliverables")
     st.link_button(
