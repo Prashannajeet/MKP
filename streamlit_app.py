@@ -43,15 +43,19 @@ st.markdown(
     :root { --ll-navy: #093451; --ll-paper: #f3ecdf; --ll-cream: #fffaf0; --ll-line: #c9bfae; --ll-green: #2d806c; }
     [data-testid="stAppViewContainer"], [data-testid="stApp"] { background: var(--ll-paper); color: var(--ll-navy); }
     [data-testid="stHeader"] { background: rgba(243,236,223,.90); }
-    .block-container { padding: 1rem 1.15rem 1.4rem; max-width: 100%; }
-    h1 { color: var(--ll-navy); font-size: 1.75rem; letter-spacing: -.02em; margin-bottom: .35rem; }
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] { height: 100vh; overflow: hidden; }
+    [data-testid="stHeader"] { display: none; }
+    .block-container { padding: .35rem .8rem .45rem; max-width: 100%; height: 100vh; overflow: hidden; }
+    h1 { color: var(--ll-navy); font-size: 1.45rem; letter-spacing: 0; margin: 0 0 .1rem; line-height: 1.1; }
+    h2 { color: var(--ll-navy); font-size: 1.15rem; margin: .15rem 0 .2rem; line-height: 1.15; }
     h3 { color: var(--ll-navy); }
     [data-testid="stMetric"] {
       background: var(--ll-cream);
       border: 1px solid var(--ll-line);
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(53,45,30,.08);
-      padding: 10px 12px;
+      padding: 5px 9px;
+      min-height: 58px;
     }
     [data-testid="stMetricLabel"] { color: #53616d; }
     [data-testid="stMetricValue"] { color: var(--ll-navy); }
@@ -78,9 +82,18 @@ st.markdown(
       background: rgba(255,250,240,.74);
       border-left: 4px solid var(--ll-green);
       border-radius: 0 6px 6px 0;
-      padding: .55rem .72rem;
-      margin: .1rem 0 .9rem;
+      padding: .3rem .55rem;
+      margin: .05rem 0 .35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+    div[role="radiogroup"] { gap: .25rem; margin: 0 0 .15rem; }
+    div[role="radiogroup"] label { padding-top: 0; padding-bottom: 0; }
+    [data-testid="stMetricValue"] { font-size: 1.45rem; }
+    [data-testid="stMetricLabel"] { font-size: .78rem; }
+    [data-testid="stSidebar"] .block-container { height: auto; overflow-y: auto; padding: .8rem; }
+    iframe { display: block; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -282,30 +295,40 @@ def render_mohanpura() -> None:
         point_type = feature["properties"]["type"]
         dgps_types[point_type] = dgps_types.get(point_type, 0) + 1
 
-    st.header("Mohanpura Final Coverage and Survey Control")
-    st.markdown(
-        '<p class="source-note">Final-submission reference: flight geotags, final AOI and BM/TBM control register dated 12 October 2026. Use the map layer control to switch basemaps and survey overlays.</p>',
-        unsafe_allow_html=True,
-    )
-    render_submission_downloads()
-    st.divider()
-
-    with st.expander("Add client photo locations", expanded=False):
+    with st.sidebar:
+        st.subheader("Mohanpura project files")
+        st.link_button(
+            "Open final-delivery folder",
+            GOOGLE_DRIVE_SUBMISSION_URL,
+            type="primary",
+            use_container_width=True,
+        )
+        st.caption(FINAL_SUBMISSION_FOLDER)
+        for title, description in FINAL_DELIVERABLES:
+            st.markdown(f"**{title}**")
+            st.caption(description)
+        st.divider()
         uploaded_locations_file = st.file_uploader(
-            "Upload location file only",
+            "Add photo-location file",
             type=["csv", "geojson", "json"],
-            help="Use a CSV with lat/lon columns or a GeoJSON point file. Do not upload photographs here.",
+            help="Use a CSV with lat/lon columns or a GeoJSON point file.",
             key="mohanpura_locations",
         )
         uploaded_points: list[list[float | str]] = []
         if uploaded_locations_file is not None:
             try:
                 uploaded_points = parse_uploaded_locations(uploaded_locations_file)
-                st.success(f"Loaded {len(uploaded_points):,} uploaded photo locations for this session.")
+                st.success(f"Loaded {len(uploaded_points):,} locations.")
             except Exception as exc:
                 st.error(f"Could not read uploaded locations: {exc}")
-        st.caption("Uploaded locations are added to the current session map only. Image files are not accepted or stored.")
+        with st.expander("BM/TBM data", expanded=False):
+            st.json(dgps, expanded=False)
 
+    st.subheader("Mohanpura Final Coverage and Survey Control")
+    st.markdown(
+        '<p class="source-note">Final-submission reference: flight geotags, final AOI and BM/TBM control register dated 12 October 2026. Use the map layer control to switch basemaps and survey overlays.</p>',
+        unsafe_allow_html=True,
+    )
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Final Flight Geotags", f"{summary['geotagged_images']:,}")
     col2.metric("Final AOI", f"{float(summary.get('aoi_km2', 0)):.2f} km²")
@@ -316,8 +339,6 @@ def render_mohanpura() -> None:
     if uploaded_points:
         map_html = add_uploaded_layer(map_html, uploaded_points)
     render_map_html(map_html)
-    with st.expander("DGPS BM/TBM records", expanded=False):
-        st.json(dgps, expanded=False)
 
 
 def download_asset(path: Path, label: str, mime: str) -> None:
@@ -327,15 +348,26 @@ def download_asset(path: Path, label: str, mime: str) -> None:
 def render_map_html(map_html: str) -> None:
     """Render the embedded map across current and earlier Streamlit releases."""
     if hasattr(st, "iframe"):
-        st.iframe(map_html, height=820)
+        st.iframe(map_html, height=500)
     else:
-        components.html(map_html, height=820, scrolling=False)
+        components.html(map_html, height=500, scrolling=False)
 
 
 def render_kundaliya() -> None:
     summary = load_json(KUNDALIYA_SUMMARY, KUNDALIYA_SUMMARY.stat().st_mtime_ns)
     controls = load_json(KUNDALIYA_CONTROLS, KUNDALIYA_CONTROLS.stat().st_mtime_ns)
-    st.header("Kundaliya Flight Planning and Survey Control")
+    with st.sidebar:
+        st.subheader("Kundaliya project files")
+        download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML package", "application/zip")
+        download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined flight plan KMZ", "application/vnd.google-earth.kmz")
+        download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined flight plan KML", "application/vnd.google-earth.kml+xml")
+        download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register CSV", "text/csv")
+        download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "Kundaliya BM KML", "application/vnd.google-earth.kml+xml")
+        download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "Kundaliya TBM KML", "application/vnd.google-earth.kml+xml")
+        with st.expander("BM/TBM data", expanded=False):
+            st.json(controls, expanded=False)
+
+    st.subheader("Kundaliya Flight Planning and Survey Control")
     st.markdown(
         '<p class="source-note">Planning reference: Kundaliya Flight Plan R0 dated 24 October 2026. The map presents the finalized 100 m-smoothed PMF AOI, controller missions KUN-M001 to KUN-M108, and the supplied BM/TBM control locations.</p>',
         unsafe_allow_html=True,
@@ -350,32 +382,20 @@ def render_kundaliya() -> None:
 
     render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
 
-    with st.expander("Download Kundaliya flight plans and controls", expanded=False):
-        first = st.columns(3)
-        with first[0]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML package", "application/zip")
-        with first[1]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined flight plan KMZ", "application/vnd.google-earth.kmz")
-        with first[2]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register CSV", "text/csv")
-        second = st.columns(3)
-        with second[0]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined flight plan KML", "application/vnd.google-earth.kml+xml")
-        with second[1]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "Kundaliya BM KML", "application/vnd.google-earth.kml+xml")
-        with second[2]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "Kundaliya TBM KML", "application/vnd.google-earth.kml+xml")
-
-    with st.expander("Kundaliya BM/TBM records", expanded=False):
-        st.json(controls, expanded=False)
-
 
 require_delivery_assets()
 ensure_static_webmap()
-st.title("Mohanpura and Kundaliya Survey Planning")
-st.caption("Flight coverage, AOI and DGPS survey-control review")
-mohanpura_tab, kundaliya_tab = st.tabs(["Mohanpura", "Kundaliya"])
-with mohanpura_tab:
+title_col, project_col = st.columns([3.4, 1.25])
+with title_col:
+    st.title("Mohanpura and Kundaliya Survey Planning")
+with project_col:
+    project = st.radio(
+        "Project",
+        ["Mohanpura", "Kundaliya"],
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+if project == "Mohanpura":
     render_mohanpura()
-with kundaliya_tab:
+else:
     render_kundaliya()
