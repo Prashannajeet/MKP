@@ -7,7 +7,6 @@ import re
 from pathlib import Path
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 
 ROOT = Path(__file__).resolve().parent
@@ -252,6 +251,18 @@ def render_submission_downloads() -> None:
             st.caption(description)
 
 
+def require_delivery_assets() -> None:
+    """Stop with an actionable message when the synchronized delivery data is missing."""
+    required = (SUMMARY_JSON, DGPS_GEOJSON, SOURCE_WEBMAP)
+    missing = [path.relative_to(ROOT) for path in required if not path.is_file()]
+    if missing:
+        st.error("The survey app cannot find its synchronized delivery data.")
+        st.code("\n".join(str(path) for path in missing), language=None)
+        st.info("Run scripts/sync_final_submission_data.py, then restart the app.")
+        st.stop()
+
+
+require_delivery_assets()
 ensure_static_webmap()
 summary = load_json(SUMMARY_JSON, SUMMARY_JSON.stat().st_mtime_ns)
 dgps = load_json(DGPS_GEOJSON, DGPS_GEOJSON.stat().st_mtime_ns)
@@ -293,7 +304,7 @@ col4.metric("TBM", f"{dgps_types.get('TBM', 0):,}")
 map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")
 if uploaded_points:
     map_html = add_uploaded_layer(map_html, uploaded_points)
-components.html(map_html, height=820)
+st.iframe(map_html, height=820)
 
 with st.expander("DGPS BM/TBM records", expanded=False):
     st.json(dgps, expanded=False)
