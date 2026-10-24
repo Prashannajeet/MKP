@@ -32,69 +32,243 @@ FINAL_DELIVERABLES = (
 
 
 st.set_page_config(
-    page_title="MKP Survey Planning",
+    page_title="MKP Survey Control | Logical Limit",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 
 
 st.markdown(
     """
     <style>
-    :root { --ll-navy: #093451; --ll-paper: #f3ecdf; --ll-cream: #fffaf0; --ll-line: #c9bfae; --ll-green: #2d806c; }
-    [data-testid="stAppViewContainer"], [data-testid="stApp"] { background: var(--ll-paper); color: var(--ll-navy); }
-    [data-testid="stHeader"] { background: rgba(243,236,223,.90); }
-    .block-container { padding: .35rem .8rem .5rem; max-width: 100%; }
-    h1 { color: var(--ll-navy); font-size: 1.45rem; letter-spacing: 0; margin: 0 0 .1rem; line-height: 1.1; }
-    h2 { color: var(--ll-navy); font-size: 1.15rem; margin: .15rem 0 .2rem; line-height: 1.15; }
-    h3 { color: var(--ll-navy); }
-    [data-testid="stMetric"] {
-      background: var(--ll-cream);
-      border: 1px solid var(--ll-line);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(53,45,30,.08);
-      padding: 5px 9px;
-      min-height: 58px;
+    :root {
+      --ll-navy: #123142;
+      --ll-ink: #193642;
+      --ll-muted: #647985;
+      --ll-bg: #eef4f7;
+      --ll-surface: #ffffff;
+      --ll-line: #d5e0e6;
+      --ll-accent: #278ca4;
+      --ll-accent-dark: #176d83;
+      --ll-green: #2d806c;
     }
-    [data-testid="stMetricLabel"] { color: #53616d; }
-    [data-testid="stMetricValue"] { color: var(--ll-navy); }
-    [data-testid="stExpander"] {
-      background: rgba(255,250,240,.76);
+    [data-testid="stAppViewContainer"], [data-testid="stApp"] {
+      background: var(--ll-bg);
+      color: var(--ll-ink);
+    }
+    header[data-testid="stHeader"] { background: rgba(238,244,247,.96); height: 2rem; }
+    [data-testid="stSidebar"] { display: none; }
+    .block-container { padding: 2.15rem .65rem .55rem; max-width: 100%; }
+    h1, h2, h3 { color: var(--ll-navy); letter-spacing: 0; }
+    h2 { font-size: 1.05rem; margin: 0; line-height: 1.2; }
+    h3 { font-size: .98rem; }
+    .app-masthead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      background: var(--ll-surface);
       border: 1px solid var(--ll-line);
-      border-radius: 8px;
+      border-radius: 4px;
+      padding: .58rem .72rem;
+      margin: 0 0 .35rem;
+      box-shadow: 0 2px 8px rgba(18,49,66,.055);
+    }
+    .brand-lockup { display: flex; align-items: center; gap: .7rem; min-width: 0; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 34px;
+      color: white;
+      background: var(--ll-accent-dark);
+      border-radius: 4px;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .brand-kicker {
+      color: var(--ll-accent-dark);
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: .11em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .app-title {
+      color: var(--ll-navy);
+      font-size: 1.15rem;
+      font-weight: 720;
+      line-height: 1.15;
+      margin-top: .05rem;
+    }
+    .app-subtitle { color: var(--ll-muted); font-size: .73rem; margin-top: .12rem; }
+    .masthead-meta { display: flex; align-items: center; gap: .45rem; }
+    .status-pill {
+      background: #e7f4f1;
+      border: 1px solid #b8d8d0;
+      border-radius: 999px;
+      color: #266b5c;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: .22rem .48rem;
+      white-space: nowrap;
+    }
+    .revision-pill {
+      border-left: 1px solid var(--ll-line);
+      color: var(--ll-muted);
+      font-size: .68rem;
+      font-weight: 700;
+      padding-left: .55rem;
+      white-space: nowrap;
+    }
+    .project-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      background: var(--ll-surface);
+      border: 1px solid var(--ll-line);
+      border-bottom: 0;
+      padding: .48rem .65rem .42rem;
+      margin-top: .25rem;
+    }
+    .project-title { color: var(--ll-navy); font-size: 1rem; font-weight: 720; line-height: 1.2; }
+    .project-note { color: var(--ll-muted); font-size: .69rem; margin-top: .08rem; }
+    .project-crs { color: var(--ll-muted); font-size: .66rem; font-weight: 650; white-space: nowrap; }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(var(--kpi-count), minmax(0, 1fr));
+      background: var(--ll-surface);
+      border: 1px solid var(--ll-line);
+      margin: 0 0 .34rem;
+    }
+    .kpi-item { padding: .38rem .58rem .42rem; border-right: 1px solid var(--ll-line); min-width: 0; }
+    .kpi-item:last-child { border-right: 0; }
+    .kpi-label { color: var(--ll-muted); font-size: .62rem; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+    .kpi-value { color: var(--ll-navy); font-size: 1.12rem; font-weight: 690; line-height: 1.25; margin-top: .08rem; }
+    .kpi-detail { color: #81929b; font-size: .57rem; margin-top: .02rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .map-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--ll-surface);
+      border: 1px solid var(--ll-line);
+      border-bottom: 0;
+      padding: .32rem .55rem;
+    }
+    .map-head strong { color: var(--ll-navy); font-size: .78rem; }
+    .map-head span { color: var(--ll-muted); font-size: .62rem; }
+    [data-testid="stIFrame"] {
+      border: 1px solid var(--ll-line);
+      background: var(--ll-surface);
+      box-shadow: 0 2px 8px rgba(18,49,66,.05);
+    }
+    [data-testid="stExpander"] {
+      background: var(--ll-surface);
+      border: 1px solid var(--ll-line);
+      border-radius: 4px;
+      margin-top: .3rem;
     }
     [data-testid="stDivider"] { border-color: var(--ll-line); }
     .stLinkButton > a {
-      background: var(--ll-navy) !important;
-      border: 1px solid var(--ll-navy) !important;
-      border-radius: 6px !important;
-      color: #fffaf0 !important;
+      background: var(--ll-accent-dark) !important;
+      border: 1px solid var(--ll-accent-dark) !important;
+      border-radius: 4px !important;
+      color: #fff !important;
       font-weight: 650;
       box-shadow: 0 2px 5px rgba(9,52,81,.18);
     }
     .stLinkButton > a:hover { background: #145271 !important; border-color: #145271 !important; }
-    .submission-kicker { color: var(--ll-green); font-size: .73rem; font-weight: 750; letter-spacing: .12em; margin: .55rem 0 -.35rem; }
+    .submission-kicker { color: var(--ll-green); font-size: .7rem; font-weight: 750; letter-spacing: .1em; margin: .35rem 0 -.25rem; }
     .source-note {
       color: #40525b;
       font-size: .9rem;
       line-height: 1.45;
-      background: rgba(255,250,240,.74);
+      background: var(--ll-surface);
       border-left: 4px solid var(--ll-green);
-      border-radius: 0 6px 6px 0;
+      border-radius: 0 3px 3px 0;
       padding: .3rem .55rem;
       margin: .05rem 0 .35rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    div[role="radiogroup"] { gap: .25rem; margin: 0 0 .15rem; }
-    div[role="radiogroup"] label { padding-top: 0; padding-bottom: 0; }
-    [data-testid="stMetricValue"] { font-size: 1.45rem; }
-    [data-testid="stMetricLabel"] { font-size: .78rem; }
+    [data-testid="stTabs"] [role="tablist"] { gap: .95rem; border-bottom: 1px solid var(--ll-line); }
+    [data-testid="stTabs"] button[role="tab"] { color: #536a76; padding: .2rem 0 .38rem; font-size: .75rem; }
+    [data-testid="stTabs"] button[role="tab"][aria-selected="true"] { color: var(--ll-accent-dark); font-weight: 700; }
+    [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: var(--ll-accent); }
     iframe { display: block; }
+    @media (max-width: 760px) {
+      .block-container { padding: 2.1rem .35rem .5rem; }
+      .app-masthead { grid-template-columns: 1fr; gap: .35rem; }
+      .masthead-meta { justify-content: flex-start; }
+      .app-title { font-size: 1rem; }
+      .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kpi-item:nth-child(2n) { border-right: 0; }
+      .kpi-item { border-bottom: 1px solid var(--ll-line); }
+      .project-crs { display: none; }
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
+
+def render_app_masthead() -> None:
+    st.markdown(
+        """
+        <header class="app-masthead">
+          <div class="brand-lockup">
+            <div class="brand-mark">LLC</div>
+            <div>
+              <div class="brand-kicker">Logical Limit Consulting LLP · Bhopal</div>
+              <div class="app-title">Mohanpura Kundaliya Survey Planning &amp; Control</div>
+              <div class="app-subtitle">Flight coverage, AOI validation and DGPS survey-control review</div>
+            </div>
+          </div>
+          <div class="masthead-meta">
+            <span class="status-pill">DATA SYNCHRONIZED</span>
+            <span class="revision-pill">Client Review · R0</span>
+          </div>
+        </header>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_project_header(title: str, note: str) -> None:
+    st.markdown(
+        f"""
+        <section class="project-head">
+          <div>
+            <div class="project-title">{title}</div>
+            <div class="project-note">{note}</div>
+          </div>
+          <div class="project-crs">WGS 84 · UTM Zone 43N</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_kpi_strip(items: list[tuple[str, str, str]]) -> None:
+    cards = "".join(
+        f'<div class="kpi-item"><div class="kpi-label">{label}</div><div class="kpi-value">{value}</div><div class="kpi-detail">{detail}</div></div>'
+        for label, value, detail in items
+    )
+    st.markdown(
+        f'<div class="kpi-strip" style="--kpi-count:{len(items)}">{cards}</div>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_map_header(title: str, detail: str) -> None:
+    st.markdown(
+        f'<div class="map-head"><strong>{title}</strong><span>{detail}</span></div>',
+        unsafe_allow_html=True,
+    )
 
 
 @st.cache_data(show_spinner=False)
@@ -292,40 +466,49 @@ def render_mohanpura() -> None:
         point_type = feature["properties"]["type"]
         dgps_types[point_type] = dgps_types.get(point_type, 0) + 1
 
-    st.subheader("Mohanpura Final Coverage and Survey Control")
-    st.markdown(
-        '<p class="source-note">Final-submission reference: flight geotags, final AOI and BM/TBM control register dated 12 October 2026. Use the map layer control to switch basemaps and survey overlays.</p>',
-        unsafe_allow_html=True,
+    render_project_header(
+        "Mohanpura Final Coverage and Survey Control",
+        "Final flight geotags, AOI and BM/TBM control register · 12 October 2026",
     )
+
+    uploaded_locations_file = st.session_state.get("mohanpura_locations")
+    uploaded_points: list[list[float | str]] = []
+    upload_error: str | None = None
+    if uploaded_locations_file is not None:
+        try:
+            uploaded_points = parse_uploaded_locations(uploaded_locations_file)
+        except Exception as exc:
+            upload_error = str(exc)
+
+    render_kpi_strip(
+        [
+            ("Final flight geotags", f"{summary['geotagged_images']:,}", "Accepted image locations"),
+            ("Final AOI", f"{float(summary.get('aoi_km2', 0)):.2f} km²", "Client submission boundary"),
+            ("BM / reference", f"{dgps_types.get('BM/Base', 0):,}", "Primary survey control"),
+            ("TBM", f"{dgps_types.get('TBM', 0):,}", "Temporary benchmarks"),
+        ]
+    )
+
+    map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")
+    if uploaded_points:
+        map_html = add_uploaded_layer(map_html, uploaded_points)
+    render_map_header("Survey control map", "Use the layer control to switch basemaps and survey overlays")
+    render_map_html(map_html)
 
     with st.expander("Final submission, uploads and control records", expanded=False):
         render_submission_downloads()
-        uploaded_locations_file = st.file_uploader(
+        st.file_uploader(
             "Upload location file only",
             type=["csv", "geojson", "json"],
             help="Use a CSV with lat/lon columns or a GeoJSON point file. Do not upload photographs here.",
             key="mohanpura_locations",
         )
-        uploaded_points: list[list[float | str]] = []
-        if uploaded_locations_file is not None:
-            try:
-                uploaded_points = parse_uploaded_locations(uploaded_locations_file)
-                st.success(f"Loaded {len(uploaded_points):,} uploaded photo locations for this session.")
-            except Exception as exc:
-                st.error(f"Could not read uploaded locations: {exc}")
+        if upload_error:
+            st.error(f"Could not read uploaded locations: {upload_error}")
+        elif uploaded_locations_file is not None:
+            st.success(f"Loaded {len(uploaded_points):,} uploaded photo locations for this session.")
         st.caption("Uploaded locations are added to the current session map only.")
         st.json(dgps, expanded=False)
-
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Final Flight Geotags", f"{summary['geotagged_images']:,}")
-    col2.metric("Final AOI", f"{float(summary.get('aoi_km2', 0)):.2f} km²")
-    col3.metric("BM / Reference", f"{dgps_types.get('BM/Base', 0):,}")
-    col4.metric("TBM", f"{dgps_types.get('TBM', 0):,}")
-
-    map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")
-    if uploaded_points:
-        map_html = add_uploaded_layer(map_html, uploaded_points)
-    render_map_html(map_html)
 
 
 def download_asset(path: Path, label: str, mime: str) -> None:
@@ -335,27 +518,30 @@ def download_asset(path: Path, label: str, mime: str) -> None:
 def render_map_html(map_html: str) -> None:
     """Render the embedded map across current and earlier Streamlit releases."""
     if hasattr(st, "iframe"):
-        st.iframe(map_html, height=250)
+        st.iframe(map_html, height=300)
     else:
-        components.html(map_html, height=250, scrolling=False)
+        components.html(map_html, height=300, scrolling=False)
 
 
 def render_kundaliya() -> None:
     summary = load_json(KUNDALIYA_SUMMARY, KUNDALIYA_SUMMARY.stat().st_mtime_ns)
     controls = load_json(KUNDALIYA_CONTROLS, KUNDALIYA_CONTROLS.stat().st_mtime_ns)
-    st.subheader("Kundaliya Flight Planning and Survey Control")
-    st.markdown(
-        '<p class="source-note">Planning reference: Kundaliya Flight Plan R0 dated 24 October 2026. The map presents the finalized 100 m-smoothed PMF AOI, controller missions KUN-M001 to KUN-M108, and the supplied BM/TBM control locations.</p>',
-        unsafe_allow_html=True,
+    render_project_header(
+        "Kundaliya Flight Planning and Survey Control",
+        "Finalized 100 m-smoothed PMF AOI and controller missions KUN-M001 to KUN-M108 · R0",
     )
 
-    col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("Flight Missions", f"{summary['mission_count']:,}")
-    col2.metric("Smoothed AOI", f"{summary['smoothed_aoi_ha']:,.1f} ha")
-    col3.metric("Planned Coverage", f"{summary['coverage_pct']:.2f}%")
-    col4.metric("BM", f"{summary['bm_count']:,}")
-    col5.metric("TBM", f"{summary['tbm_count']:,}")
+    render_kpi_strip(
+        [
+            ("Flight missions", f"{summary['mission_count']:,}", "DJI controller packages"),
+            ("Smoothed AOI", f"{summary['smoothed_aoi_ha']:,.1f} ha", "PMF survey boundary"),
+            ("Planned coverage", f"{summary['coverage_pct']:.2f}%", "AOI coverage target"),
+            ("BM", f"{summary['bm_count']:,}", "Long-term benchmarks"),
+            ("TBM", f"{summary['tbm_count']:,}", "Temporary benchmarks"),
+        ]
+    )
 
+    render_map_header("Flight mission map", "R0 mission footprints, AOI and DGPS survey control")
     render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
 
     with st.expander("Download Kundaliya flight plans and view control records", expanded=False):
@@ -378,8 +564,7 @@ def render_kundaliya() -> None:
 
 require_delivery_assets()
 ensure_static_webmap()
-st.title("Mohanpura and Kundaliya Survey Planning")
-st.caption("Flight coverage, AOI and DGPS survey-control review")
+render_app_masthead()
 mohanpura_tab, kundaliya_tab = st.tabs(["Mohanpura", "Kundaliya"])
 with mohanpura_tab:
     render_mohanpura()
