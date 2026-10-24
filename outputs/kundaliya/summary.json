@@ -1,0 +1,42 @@
+{
+  "version": "R0",
+  "smoothing_m": 100.0,
+  "grid_size_m": 1000.0,
+  "grid_angle_deg": 45.0,
+  "grid_x_offset_fraction": 0.5,
+  "grid_y_offset_fraction": 0.0,
+  "initial_cell_count": 161,
+  "initial_small_cells": 55,
+  "mission_count": 108,
+  "original_aoi_ha": 8248.879159370696,
+  "smoothed_aoi_ha": 8267.59597616672,
+  "aoi_area_change_ha": 18.716816796024432,
+  "aoi_area_change_pct": 0.22690133331340068,
+  "aoi_symmetric_difference_ha": 261.52159933125324,
+  "mission_union_ha": 8263.724153480582,
+  "coverage_pct": 99.9531400555896,
+  "gap_ha": 3.874190877248681,
+  "outside_aoi_ha": 0.0023681925461294965,
+  "maximum_mission_area_ha": 133.21886019762846,
+  "minimum_mission_area_ha": 25.120063593947968,
+  "median_mission_area_ha": 87.11579989353464,
+  "maximum_nodes": 80,
+  "maximum_pair_overlap_pct": 0.0,
+  "generation_rule": "Fresh 1 km square grid clipped directly to the 100 m smoothed PMF AOI",
+  "numbering_rule": "KUN-M001 starts at Kundaliya Dam; ascending IDs follow Kali Sindh river chainage",
+  "dam_start_mission": "KUN-M001",
+  "dam_start_distance_m": 0.0,
+  "source_version": "Kundaliya Flight Plan R0 · 24 October 2026",
+  "bm_count": 21,
+  "tbm_count": 50,
+  "bounds_wgs84": [
+    [
+      23.894045277,
+      76.16350249
+    ],
+    [
+      24.21599454,
+      76.32658573
+    ]
+  ]
+}

@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 ROOT = Path(__file__).resolve().parent
@@ -16,6 +17,10 @@ SUMMARY_JSON = DATA_DIR / "summary.json"
 SOURCE_WEBMAP = DATA_DIR / "drone_photo_webmap.html"
 STATIC_DIR = ROOT / "static"
 STATIC_WEBMAP = STATIC_DIR / "drone_photo_webmap.html"
+KUNDALIYA_DIR = ROOT / "outputs" / "kundaliya"
+KUNDALIYA_SUMMARY = KUNDALIYA_DIR / "summary.json"
+KUNDALIYA_CONTROLS = KUNDALIYA_DIR / "kundaliya_bm_tbm.geojson"
+KUNDALIYA_WEBMAP = KUNDALIYA_DIR / "kundaliya_webmap.html"
 GOOGLE_DRIVE_SUBMISSION_URL = "https://drive.google.com/drive/folders/1GTC_fSJDd5ROt-he2B7grUV5Ks9-81uV?usp=sharing"
 FINAL_SUBMISSION_FOLDER = "Mohanpura Final Submission · 12 October 2026"
 FINAL_DELIVERABLES = (
@@ -27,7 +32,7 @@ FINAL_DELIVERABLES = (
 
 
 st.set_page_config(
-    page_title="Mohanpura Final Coverage",
+    page_title="MKP Survey Planning",
     layout="wide",
 )
 
@@ -253,58 +258,124 @@ def render_submission_downloads() -> None:
 
 def require_delivery_assets() -> None:
     """Stop with an actionable message when the synchronized delivery data is missing."""
-    required = (SUMMARY_JSON, DGPS_GEOJSON, SOURCE_WEBMAP)
+    required = (
+        SUMMARY_JSON,
+        DGPS_GEOJSON,
+        SOURCE_WEBMAP,
+        KUNDALIYA_SUMMARY,
+        KUNDALIYA_CONTROLS,
+        KUNDALIYA_WEBMAP,
+    )
     missing = [path.relative_to(ROOT) for path in required if not path.is_file()]
     if missing:
         st.error("The survey app cannot find its synchronized delivery data.")
         st.code("\n".join(str(path) for path in missing), language=None)
-        st.info("Run scripts/sync_final_submission_data.py, then restart the app.")
+        st.info("Run the Mohanpura and Kundaliya asset-build scripts, then restart the app.")
         st.stop()
+
+
+def render_mohanpura() -> None:
+    summary = load_json(SUMMARY_JSON, SUMMARY_JSON.stat().st_mtime_ns)
+    dgps = load_json(DGPS_GEOJSON, DGPS_GEOJSON.stat().st_mtime_ns)
+    dgps_types: dict[str, int] = {}
+    for feature in dgps["features"]:
+        point_type = feature["properties"]["type"]
+        dgps_types[point_type] = dgps_types.get(point_type, 0) + 1
+
+    st.header("Mohanpura Final Coverage and Survey Control")
+    st.markdown(
+        '<p class="source-note">Final-submission reference: flight geotags, final AOI and BM/TBM control register dated 12 October 2026. Use the map layer control to switch basemaps and survey overlays.</p>',
+        unsafe_allow_html=True,
+    )
+    render_submission_downloads()
+    st.divider()
+
+    with st.expander("Add client photo locations", expanded=False):
+        uploaded_locations_file = st.file_uploader(
+            "Upload location file only",
+            type=["csv", "geojson", "json"],
+            help="Use a CSV with lat/lon columns or a GeoJSON point file. Do not upload photographs here.",
+            key="mohanpura_locations",
+        )
+        uploaded_points: list[list[float | str]] = []
+        if uploaded_locations_file is not None:
+            try:
+                uploaded_points = parse_uploaded_locations(uploaded_locations_file)
+                st.success(f"Loaded {len(uploaded_points):,} uploaded photo locations for this session.")
+            except Exception as exc:
+                st.error(f"Could not read uploaded locations: {exc}")
+        st.caption("Uploaded locations are added to the current session map only. Image files are not accepted or stored.")
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Final Flight Geotags", f"{summary['geotagged_images']:,}")
+    col2.metric("Final AOI", f"{float(summary.get('aoi_km2', 0)):.2f} km²")
+    col3.metric("BM / Reference", f"{dgps_types.get('BM/Base', 0):,}")
+    col4.metric("TBM", f"{dgps_types.get('TBM', 0):,}")
+
+    map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")
+    if uploaded_points:
+        map_html = add_uploaded_layer(map_html, uploaded_points)
+    render_map_html(map_html)
+    with st.expander("DGPS BM/TBM records", expanded=False):
+        st.json(dgps, expanded=False)
+
+
+def download_asset(path: Path, label: str, mime: str) -> None:
+    st.download_button(label, data=path.read_bytes(), file_name=path.name, mime=mime, use_container_width=True)
+
+
+def render_map_html(map_html: str) -> None:
+    """Render the embedded map across current and earlier Streamlit releases."""
+    if hasattr(st, "iframe"):
+        st.iframe(map_html, height=820)
+    else:
+        components.html(map_html, height=820, scrolling=False)
+
+
+def render_kundaliya() -> None:
+    summary = load_json(KUNDALIYA_SUMMARY, KUNDALIYA_SUMMARY.stat().st_mtime_ns)
+    controls = load_json(KUNDALIYA_CONTROLS, KUNDALIYA_CONTROLS.stat().st_mtime_ns)
+    st.header("Kundaliya Flight Planning and Survey Control")
+    st.markdown(
+        '<p class="source-note">Planning reference: Kundaliya Flight Plan R0 dated 24 October 2026. The map presents the finalized 100 m-smoothed PMF AOI, controller missions KUN-M001 to KUN-M108, and the supplied BM/TBM control locations.</p>',
+        unsafe_allow_html=True,
+    )
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+    col1.metric("Flight Missions", f"{summary['mission_count']:,}")
+    col2.metric("Smoothed AOI", f"{summary['smoothed_aoi_ha']:,.1f} ha")
+    col3.metric("Planned Coverage", f"{summary['coverage_pct']:.2f}%")
+    col4.metric("BM", f"{summary['bm_count']:,}")
+    col5.metric("TBM", f"{summary['tbm_count']:,}")
+
+    render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
+
+    with st.expander("Download Kundaliya flight plans and controls", expanded=False):
+        first = st.columns(3)
+        with first[0]:
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML package", "application/zip")
+        with first[1]:
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined flight plan KMZ", "application/vnd.google-earth.kmz")
+        with first[2]:
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register CSV", "text/csv")
+        second = st.columns(3)
+        with second[0]:
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined flight plan KML", "application/vnd.google-earth.kml+xml")
+        with second[1]:
+            download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "Kundaliya BM KML", "application/vnd.google-earth.kml+xml")
+        with second[2]:
+            download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "Kundaliya TBM KML", "application/vnd.google-earth.kml+xml")
+
+    with st.expander("Kundaliya BM/TBM records", expanded=False):
+        st.json(controls, expanded=False)
 
 
 require_delivery_assets()
 ensure_static_webmap()
-summary = load_json(SUMMARY_JSON, SUMMARY_JSON.stat().st_mtime_ns)
-dgps = load_json(DGPS_GEOJSON, DGPS_GEOJSON.stat().st_mtime_ns)
-dgps_types: dict[str, int] = {}
-for feature in dgps["features"]:
-    point_type = feature["properties"]["type"]
-    dgps_types[point_type] = dgps_types.get(point_type, 0) + 1
-
-st.title("Mohanpura Final Coverage and Survey Control")
-st.markdown(
-    '<p class="source-note">Final-submission reference: flight geotags, final AOI and BM/TBM control register dated 12 October 2026. Use the layer control inside the map to switch basemaps and toggle the final AOI, flight geotags, BM/reference, and TBM layers.</p>',
-    unsafe_allow_html=True,
-)
-
-render_submission_downloads()
-st.divider()
-
-with st.expander("Add client photo locations", expanded=False):
-    uploaded_locations_file = st.file_uploader(
-        "Upload location file only",
-        type=["csv", "geojson", "json"],
-        help="Use a CSV with lat/lon columns or a GeoJSON point file. Do not upload photographs here.",
-    )
-    uploaded_points: list[list[float | str]] = []
-    if uploaded_locations_file is not None:
-        try:
-            uploaded_points = parse_uploaded_locations(uploaded_locations_file)
-            st.success(f"Loaded {len(uploaded_points):,} uploaded photo locations for this session.")
-        except Exception as exc:
-            st.error(f"Could not read uploaded locations: {exc}")
-    st.caption("Uploaded locations are added to the current session map only. Image files are not accepted or stored.")
-
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("Final Flight Geotags", f"{summary['geotagged_images']:,}")
-col2.metric("Final AOI", f"{float(summary.get('aoi_km2', 0)):.2f} km²")
-col3.metric("BM / Reference", f"{dgps_types.get('BM/Base', 0):,}")
-col4.metric("TBM", f"{dgps_types.get('TBM', 0):,}")
-
-map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")
-if uploaded_points:
-    map_html = add_uploaded_layer(map_html, uploaded_points)
-st.iframe(map_html, height=820)
-
-with st.expander("DGPS BM/TBM records", expanded=False):
-    st.json(dgps, expanded=False)
+st.title("Mohanpura and Kundaliya Survey Planning")
+st.caption("Flight coverage, AOI and DGPS survey-control review")
+mohanpura_tab, kundaliya_tab = st.tabs(["Mohanpura", "Kundaliya"])
+with mohanpura_tab:
+    render_mohanpura()
+with kundaliya_tab:
+    render_kundaliya()
