@@ -177,7 +177,10 @@ st.markdown(
       border: 1px solid var(--ll-line);
       background: var(--ll-surface);
       box-shadow: 0 2px 8px rgba(18,49,66,.05);
+      height: calc(100vh - 19rem) !important;
+      min-height: 420px;
     }
+    [data-testid="stIFrame"] > iframe { height: 100% !important; }
     [data-testid="stExpander"] {
       background: var(--ll-surface);
       border: 1px solid var(--ll-line);
@@ -222,6 +225,7 @@ st.markdown(
       .kpi-item:nth-child(2n) { border-right: 0; }
       .kpi-item { border-bottom: 1px solid var(--ll-line); }
       .project-crs { display: none; }
+      [data-testid="stIFrame"] { height: 58vh !important; min-height: 360px; }
     }
     </style>
     """,
@@ -505,23 +509,41 @@ def render_mohanpura() -> None:
     map_html = SOURCE_WEBMAP.read_text(encoding="utf-8")
     if uploaded_points:
         map_html = add_uploaded_layer(map_html, uploaded_points)
-    render_map_header("Survey control map", "Use the layer control to switch basemaps and survey overlays")
-    render_map_html(map_html)
+    map_column, utility_column = st.columns([5.1, 1.15], gap="small", vertical_alignment="top")
+    with map_column:
+        render_map_header("Survey control map", "Use the layer control to switch basemaps and survey overlays")
+        render_map_html(map_html)
 
-    with st.expander("Final submission, uploads and control records", expanded=False):
-        render_submission_downloads()
-        st.file_uploader(
-            "Upload location file only",
-            type=["csv", "geojson", "json"],
-            help="Use a CSV with lat/lon columns or a GeoJSON point file. Do not upload photographs here.",
-            key="mohanpura_locations",
-        )
-        if upload_error:
-            st.error(f"Could not read uploaded locations: {upload_error}")
-        elif uploaded_locations_file is not None:
-            st.success(f"Loaded {len(uploaded_points):,} uploaded photo locations for this session.")
-        st.caption("Uploaded locations are added to the current session map only.")
-        st.json(dgps, expanded=False)
+    with utility_column:
+        with st.container(border=True):
+            st.markdown(
+                '<div class="utility-title">Submission &amp; Control</div>'
+                '<div class="utility-note">Final survey packages, location uploads and DGPS control records.</div>',
+                unsafe_allow_html=True,
+            )
+            st.link_button(
+                "Open final delivery",
+                GOOGLE_DRIVE_SUBMISSION_URL,
+                type="primary",
+                use_container_width=True,
+            )
+            with st.expander("Package contents", expanded=False):
+                for title, description in FINAL_DELIVERABLES:
+                    st.markdown(f"**{title}**")
+                    st.caption(description)
+            with st.expander("Upload locations", expanded=False):
+                st.file_uploader(
+                    "CSV or GeoJSON",
+                    type=["csv", "geojson", "json"],
+                    help="Use a CSV with lat/lon columns or a GeoJSON point file. Do not upload photographs here.",
+                    key="mohanpura_locations",
+                )
+                if upload_error:
+                    st.error(f"Could not read uploaded locations: {upload_error}")
+                elif uploaded_locations_file is not None:
+                    st.success(f"Loaded {len(uploaded_points):,} locations.")
+            with st.expander("DGPS records", expanded=False):
+                st.json(dgps, expanded=False)
 
 
 def download_asset(path: Path, label: str, mime: str) -> None:
