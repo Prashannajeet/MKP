@@ -56,9 +56,10 @@ st.markdown(
       background: var(--ll-bg);
       color: var(--ll-ink);
     }
-    header[data-testid="stHeader"] { background: rgba(238,244,247,.96); height: 2rem; }
+    header[data-testid="stHeader"] { display: none; }
+    [data-testid="stToolbar"] { display: none; }
     [data-testid="stSidebar"] { display: none; }
-    .block-container { padding: 2.15rem .65rem .55rem; max-width: 100%; }
+    .block-container { padding: .45rem .65rem .5rem; max-width: 100%; }
     h1, h2, h3 { color: var(--ll-navy); letter-spacing: 0; }
     h2 { font-size: 1.05rem; margin: 0; line-height: 1.2; }
     h3 { font-size: .98rem; }
@@ -160,6 +161,18 @@ st.markdown(
     }
     .map-head strong { color: var(--ll-navy); font-size: .78rem; }
     .map-head span { color: var(--ll-muted); font-size: .62rem; }
+    .utility-title { color: var(--ll-navy); font-size: .82rem; font-weight: 750; margin: 0 0 .12rem; }
+    .utility-note { color: var(--ll-muted); font-size: .62rem; line-height: 1.35; margin: 0 0 .45rem; }
+    [data-testid="stDownloadButton"] button {
+      min-height: 2rem;
+      border-radius: 4px;
+      border-color: var(--ll-line);
+      color: var(--ll-navy);
+      font-size: .68rem;
+      line-height: 1.15;
+      padding: .32rem .42rem;
+    }
+    [data-testid="stDownloadButton"] button:hover { border-color: var(--ll-accent); color: var(--ll-accent-dark); }
     [data-testid="stIFrame"] {
       border: 1px solid var(--ll-line);
       background: var(--ll-surface);
@@ -201,7 +214,7 @@ st.markdown(
     [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: var(--ll-accent); }
     iframe { display: block; }
     @media (max-width: 760px) {
-      .block-container { padding: 2.1rem .35rem .5rem; }
+      .block-container { padding: .35rem .35rem .5rem; }
       .app-masthead { grid-template-columns: 1fr; gap: .35rem; }
       .masthead-meta { justify-content: flex-start; }
       .app-title { font-size: 1rem; }
@@ -515,12 +528,12 @@ def download_asset(path: Path, label: str, mime: str) -> None:
     st.download_button(label, data=path.read_bytes(), file_name=path.name, mime=mime, use_container_width=True)
 
 
-def render_map_html(map_html: str) -> None:
+def render_map_html(map_html: str, height: int = 420) -> None:
     """Render the embedded map across current and earlier Streamlit releases."""
     if hasattr(st, "iframe"):
-        st.iframe(map_html, height=300)
+        st.iframe(map_html, height=height)
     else:
-        components.html(map_html, height=300, scrolling=False)
+        components.html(map_html, height=height, scrolling=False)
 
 
 def render_kundaliya() -> None:
@@ -541,25 +554,26 @@ def render_kundaliya() -> None:
         ]
     )
 
-    render_map_header("Flight mission map", "R0 mission footprints, AOI and DGPS survey control")
-    render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
+    map_column, utility_column = st.columns([5.1, 1.15], gap="small", vertical_alignment="top")
+    with map_column:
+        render_map_header("Flight mission map", "R0 mission footprints, AOI and DGPS survey control")
+        render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
 
-    with st.expander("Download Kundaliya flight plans and view control records", expanded=False):
-        first = st.columns(3)
-        with first[0]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML package", "application/zip")
-        with first[1]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined flight plan KMZ", "application/vnd.google-earth.kmz")
-        with first[2]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register CSV", "text/csv")
-        second = st.columns(3)
-        with second[0]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined flight plan KML", "application/vnd.google-earth.kml+xml")
-        with second[1]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "Kundaliya BM KML", "application/vnd.google-earth.kml+xml")
-        with second[2]:
-            download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "Kundaliya TBM KML", "application/vnd.google-earth.kml+xml")
-        st.json(controls, expanded=False)
+    with utility_column:
+        with st.container(border=True):
+            st.markdown(
+                '<div class="utility-title">Downloads &amp; Control</div>'
+                '<div class="utility-note">Final R0 packages for field controllers and desktop review.</div>',
+                unsafe_allow_html=True,
+            )
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML", "application/zip")
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined KMZ", "application/vnd.google-earth.kmz")
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register", "text/csv")
+            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined KML", "application/vnd.google-earth.kml+xml")
+            download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "BM control KML", "application/vnd.google-earth.kml+xml")
+            download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "TBM control KML", "application/vnd.google-earth.kml+xml")
+            with st.expander("Control records", expanded=False):
+                st.json(controls, expanded=False)
 
 
 require_delivery_assets()
