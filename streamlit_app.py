@@ -21,6 +21,10 @@ KUNDALIYA_DIR = ROOT / "outputs" / "kundaliya"
 KUNDALIYA_SUMMARY = KUNDALIYA_DIR / "summary.json"
 KUNDALIYA_CONTROLS = KUNDALIYA_DIR / "kundaliya_bm_tbm.geojson"
 KUNDALIYA_WEBMAP = KUNDALIYA_DIR / "kundaliya_webmap.html"
+KUNDALIYA_COVERAGE_DIR = KUNDALIYA_DIR / "coverage"
+KUNDALIYA_COVERAGE_SUMMARY = KUNDALIYA_COVERAGE_DIR / "coverage_summary.json"
+KUNDALIYA_COVERAGE_WEBMAP = KUNDALIYA_COVERAGE_DIR / "coverage_webmap.html"
+KUNDALIYA_BALANCE_REGISTER = KUNDALIYA_COVERAGE_DIR / "Kundaliya_Field_Balance_Mission_List_25Nov2026.csv"
 GOOGLE_DRIVE_SUBMISSION_URL = "https://drive.google.com/drive/folders/1GTC_fSJDd5ROt-he2B7grUV5Ks9-81uV?usp=sharing"
 FINAL_SUBMISSION_FOLDER = "Mohanpura Final Submission · 12 October 2026"
 FINAL_DELIVERABLES = (
@@ -247,7 +251,7 @@ def render_app_masthead() -> None:
           </div>
           <div class="masthead-meta">
             <span class="status-pill">DATA SYNCHRONIZED</span>
-            <span class="revision-pill">Client Review · R0</span>
+            <span class="revision-pill">Survey Progress · 25 Nov 2026</span>
           </div>
         </header>
         """,
@@ -293,6 +297,14 @@ def load_json(path: Path, modified_ns: int) -> dict:
     """Load JSON, invalidating the cache when a delivery asset changes."""
     del modified_ns
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+@st.cache_data(show_spinner=False)
+def load_csv_records(path: Path, modified_ns: int) -> list[dict[str, str]]:
+    """Load CSV records, invalidating the cache when a delivery asset changes."""
+    del modified_ns
+    with path.open("r", encoding="utf-8-sig", newline="") as stream:
+        return list(csv.DictReader(stream))
 
 
 def ensure_static_webmap() -> None:
@@ -466,6 +478,9 @@ def require_delivery_assets() -> None:
         KUNDALIYA_SUMMARY,
         KUNDALIYA_CONTROLS,
         KUNDALIYA_WEBMAP,
+        KUNDALIYA_COVERAGE_SUMMARY,
+        KUNDALIYA_COVERAGE_WEBMAP,
+        KUNDALIYA_BALANCE_REGISTER,
     )
     missing = [path.relative_to(ROOT) for path in required if not path.is_file()]
     if missing:
@@ -559,43 +574,92 @@ def render_map_html(map_html: str, height: int = 420) -> None:
 
 
 def render_kundaliya() -> None:
-    summary = load_json(KUNDALIYA_SUMMARY, KUNDALIYA_SUMMARY.stat().st_mtime_ns)
+    planning = load_json(KUNDALIYA_SUMMARY, KUNDALIYA_SUMMARY.stat().st_mtime_ns)
+    coverage = load_json(KUNDALIYA_COVERAGE_SUMMARY, KUNDALIYA_COVERAGE_SUMMARY.stat().st_mtime_ns)
     controls = load_json(KUNDALIYA_CONTROLS, KUNDALIYA_CONTROLS.stat().st_mtime_ns)
+    balance_missions = load_csv_records(KUNDALIYA_BALANCE_REGISTER, KUNDALIYA_BALANCE_REGISTER.stat().st_mtime_ns)
     render_project_header(
-        "Kundaliya Flight Planning and Survey Control",
-        "Finalized 100 m-smoothed PMF AOI and controller missions KUN-M001 to KUN-M108 · R0",
+        "Kundaliya Drone Survey Progress and Control",
+        "Cumulative geotagged-image acquisition through 18 November 2026 · status analysis dated 25 November 2026",
     )
 
-    render_kpi_strip(
-        [
-            ("Flight missions", f"{summary['mission_count']:,}", "DJI controller packages"),
-            ("Smoothed AOI", f"{summary['smoothed_aoi_ha']:,.1f} ha", "PMF survey boundary"),
-            ("Planned coverage", f"{summary['coverage_pct']:.2f}%", "AOI coverage target"),
-            ("BM", f"{summary['bm_count']:,}", "Long-term benchmarks"),
-            ("TBM", f"{summary['tbm_count']:,}", "Temporary benchmarks"),
-        ]
-    )
+    progress_tab, planning_tab = st.tabs(["Drone Survey Progress", "Flight Plan & Control"])
+    with progress_tab:
+        render_kpi_strip(
+            [
+                ("Sorties", f"{coverage['total_sortie_folders']:,}", "Flight folders reviewed"),
+                ("RGB photographs", f"{coverage['total_rgb_photographs']:,}", "Geotagged source imagery"),
+                ("R3 AOI", f"{coverage['r3_aoi_area_ha']:,.1f} ha", "Latest PMF survey boundary"),
+                ("Estimated completed", f"{coverage['cumulative_estimated_covered_percent']:.2f}%", f"{coverage['cumulative_estimated_covered_area_ha']:,.1f} ha"),
+                ("Estimated balance", f"{coverage['estimated_balance_area_ha']:,.1f} ha", f"{coverage['estimated_balance_percent']:.2f}% of AOI"),
+                ("Field data", f"{coverage['total_field_data_gb']:,.1f} GB", "All sortie files"),
+            ]
+        )
 
-    map_column, utility_column = st.columns([5.1, 1.15], gap="small", vertical_alignment="top")
-    with map_column:
-        render_map_header("Flight mission map", "R0 mission footprints, AOI and DGPS survey control")
-        render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
-
-    with utility_column:
-        with st.container(border=True):
-            st.markdown(
-                '<div class="utility-title">Downloads &amp; Control</div>'
-                '<div class="utility-note">Final R0 packages for field controllers and desktop review.</div>',
-                unsafe_allow_html=True,
+        map_column, utility_column = st.columns([5.1, 1.15], gap="small", vertical_alignment="top")
+        with map_column:
+            render_map_header(
+                "Drone survey coverage map",
+                "Coverage through sortie 160, additional sorties 161–218 and estimated balance",
             )
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML", "application/zip")
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined KMZ", "application/vnd.google-earth.kmz")
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register", "text/csv")
-            download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined KML", "application/vnd.google-earth.kml+xml")
-            download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "BM control KML", "application/vnd.google-earth.kml+xml")
-            download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "TBM control KML", "application/vnd.google-earth.kml+xml")
-            with st.expander("Control records", expanded=False):
-                st.json(controls, expanded=False)
+            render_map_html(KUNDALIYA_COVERAGE_WEBMAP.read_text(encoding="utf-8"))
+
+        with utility_column:
+            with st.container(border=True):
+                st.markdown(
+                    '<div class="utility-title">Progress &amp; Field Files</div>'
+                    '<div class="utility-note">AOI-clipped coverage status and remaining-field-work package.</div>',
+                    unsafe_allow_html=True,
+                )
+                download_asset(KUNDALIYA_COVERAGE_DIR / "Kundaliya_Drone_Coverage_Balance_Map_25Nov2026.pdf", "Coverage map PDF", "application/pdf")
+                download_asset(KUNDALIYA_COVERAGE_DIR / "Kundaliya_Estimated_Balance_Area_Field_25Nov2026.kml", "Balance area KML", "application/vnd.google-earth.kml+xml")
+                download_asset(KUNDALIYA_COVERAGE_DIR / "Kundaliya_Estimated_Cumulative_Coverage_25Nov2026.kml", "Completed area KML", "application/vnd.google-earth.kml+xml")
+                download_asset(KUNDALIYA_COVERAGE_DIR / "Kundaliya_Field_Balance_Mission_List_25Nov2026.csv", "Balance mission list", "text/csv")
+                download_asset(KUNDALIYA_COVERAGE_DIR / "Kundaliya_All_Sortie_Register_25Nov2026.csv", "Sortie register", "text/csv")
+                download_asset(KUNDALIYA_COVERAGE_DIR / "Kundaliya_Drone_Coverage_Balance_Field_Package_25Nov2026.zip", "Complete field package", "application/zip")
+                with st.expander("Remaining missions", expanded=True):
+                    for mission in balance_missions:
+                        st.markdown(f"**{mission['controller_name']}**")
+                        st.caption(
+                            f"{float(mission['estimated_covered_pct']):.2f}% covered · "
+                            f"{float(mission['estimated_balance_ha']):.2f} ha balance · "
+                            f"{mission['field_priority']}"
+                        )
+                with st.expander("Analysis basis", expanded=False):
+                    st.caption(coverage["coverage_model"])
+                    st.caption(coverage["limitation"])
+
+    with planning_tab:
+        render_kpi_strip(
+            [
+                ("Flight missions", f"{planning['mission_count']:,}", "DJI controller packages"),
+                ("Smoothed AOI", f"{planning['smoothed_aoi_ha']:,.1f} ha", "PMF survey boundary"),
+                ("Planned coverage", f"{planning['coverage_pct']:.2f}%", "AOI coverage target"),
+                ("BM", f"{planning['bm_count']:,}", "Long-term benchmarks"),
+                ("TBM", f"{planning['tbm_count']:,}", "Temporary benchmarks"),
+            ]
+        )
+
+        map_column, utility_column = st.columns([5.1, 1.15], gap="small", vertical_alignment="top")
+        with map_column:
+            render_map_header("Flight mission map", "R0 mission footprints, AOI and DGPS survey control")
+            render_map_html(KUNDALIYA_WEBMAP.read_text(encoding="utf-8"))
+
+        with utility_column:
+            with st.container(border=True):
+                st.markdown(
+                    '<div class="utility-title">Downloads &amp; Control</div>'
+                    '<div class="utility-note">Final R0 packages for field controllers and desktop review.</div>',
+                    unsafe_allow_html=True,
+                )
+                download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Controller_KML_R0.zip", "Controller KML", "application/zip")
+                download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kmz", "Combined KMZ", "application/vnd.google-earth.kmz")
+                download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Mission_Register_R0.csv", "Mission register", "text/csv")
+                download_asset(KUNDALIYA_DIR / "Kundaliya_Final_Flight_Plan_R0_Combined.kml", "Combined KML", "application/vnd.google-earth.kml+xml")
+                download_asset(KUNDALIYA_DIR / "Kundaliya_BM.kml", "BM control KML", "application/vnd.google-earth.kml+xml")
+                download_asset(KUNDALIYA_DIR / "Kundaliya_TBM.kml", "TBM control KML", "application/vnd.google-earth.kml+xml")
+                with st.expander("Control records", expanded=False):
+                    st.json(controls, expanded=False)
 
 
 require_delivery_assets()

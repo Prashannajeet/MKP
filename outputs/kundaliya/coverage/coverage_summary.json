@@ -1,0 +1,39 @@
+{
+  "analysis_date": "2026-11-25",
+  "source_repository": "E:\\02 Drone\\Kundaliya\\DRONE",
+  "latest_flight_date": "2026-11-18",
+  "total_sortie_folders": 148,
+  "total_rgb_photographs": 63556,
+  "total_field_data_gb": 437.45,
+  "previous_baseline_sortie_max": 160,
+  "new_sortie_folders_after_previous_baseline": 58,
+  "new_rgb_photographs_after_previous_baseline": 24988,
+  "new_field_data_gb_after_previous_baseline": 173.1,
+  "r3_aoi_area_ha": 8297.73,
+  "previous_estimated_covered_area_ha": 4731.98,
+  "additional_nonoverlap_covered_area_ha": 3463.59,
+  "cumulative_estimated_covered_area_ha": 8195.56,
+  "cumulative_estimated_covered_percent": 98.77,
+  "estimated_balance_area_ha": 102.17,
+  "estimated_balance_percent": 1.23,
+  "r2_planned_missions": 74,
+  "mission_status_counts": {
+    "Provisionally covered": 72,
+    "Partial - field balance": 1,
+    "Not yet covered": 1
+  },
+  "coverage_model": "Per-sortie image-centre convex hull buffered by 100 m, dissolved and clipped to the latest Kundaliya R3 AOI.",
+  "limitation": "Planning estimate from raw geotagged image centres. Confirm accepted area from aligned imagery/orthomosaic and valid DTM/DSM coverage before contractual certification.",
+  "bounds_wgs84": [
+    [
+      23.925134459999995,
+      76.16350249
+    ],
+    [
+      24.21599454,
+      76.32658573
+    ]
+  ],
+  "previous_baseline_covered_area_ha": 4731.98,
+  "progress_gain_percentage_points": 41.74
+}
